@@ -3,48 +3,49 @@
 #include <Preferences.h>
 #include <task.h>
 #include <Serial_LCD.h>
+#include <GBK_SOURCE.h>
 
 wl_status_t last_network_state = WL_IDLE_STATUS;
 
 void setup_wifi()
 {
-    Preferences prefs;     // ÉùÃ÷Preferences¶ÔÏó
-    prefs.begin("config"); // ´ò¿ªÃüÃû¿Õ¼äconfig
+    Preferences prefs;     // å£°æ˜Preferenceså¯¹è±¡
+    prefs.begin("config"); // æ‰“å¼€å‘½åç©ºé—´config
     WiFi.mode(WIFI_AP_STA);
-    String wifi_ssid = prefs.getString("ssid", "");     // ¶ÁÈ¡ssid
-    String wifi_passwd = prefs.getString("passwd", ""); // ¶ÁÈ¡passwd
+    String wifi_ssid = prefs.getString("ssid", "");     // è¯»å–ssid
+    String wifi_passwd = prefs.getString("passwd", ""); // è¯»å–passwd
     if (wifi_ssid != "" && wifi_passwd != "")
     {
         WiFi.begin(wifi_ssid.c_str(), wifi_passwd.c_str());
-        Serial.println("[ÍøÂç¹ÜÀí]:WIFIÁ¬½Óµ½:" + wifi_ssid);
+        PLATFORM_PRINTLN("[ç½‘ç»œç®¡ç†]:WIFIè¿æ¥åˆ°:" + wifi_ssid);
     }
     else
     {
-        Serial.println("[ÍøÂç¹ÜÀí]:Ã»ÓĞ¶ÁÈ¡µ½WIFIÊı¾İ£¬²»Æô¶¯ÍøÂç");
+        PLATFORM_PRINTLN("[ç½‘ç»œç®¡ç†]:æ²¡æœ‰è¯»å–åˆ°WIFIæ•°æ®ï¼Œä¸å¯åŠ¨ç½‘ç»œ");
     }
-    prefs.end(); // ¹Ø±ÕÃüÃû¿Õ¼äconfig
+    prefs.end(); // å…³é—­å‘½åç©ºé—´config
 }
 
 void network_config_Task(void *parameter)
 {
-    Serial.println("[Ïß³Ì¹ÜÀí]:Æô¶¯SmartConfigÅäÍøÏß³Ì");
-    Preferences prefs;     // ÉùÃ÷Preferences¶ÔÏó
-    prefs.begin("config"); // ´ò¿ªÃüÃû¿Õ¼äconfig
+    PLATFORM_PRINTLN("[çº¿ç¨‹ç®¡ç†]:å¯åŠ¨SmartConfigé…ç½‘çº¿ç¨‹");
+    Preferences prefs;     // å£°æ˜Preferenceså¯¹è±¡
+    prefs.begin("config"); // æ‰“å¼€å‘½åç©ºé—´config
     WiFi.beginSmartConfig();
     // Wait for SmartConfig packet from mobile
-    Serial.println("[ÍøÂç¹ÜÀí]:µÈ´ıSmartConfigÅäÍø");
+    PLATFORM_PRINTLN("[ç½‘ç»œç®¡ç†]:ç­‰å¾…SmartConfigé…ç½‘");
     while (!WiFi.smartConfigDone())
     {
-        LCD_print("network.t0.txt=\"¡ª\"");
+        LCD_print("network.t0.txt=\"â€”\"");
         delay(500);
         LCD_print("network.t0.txt=\"|\"");
         delay(500);
     }
-    prefs.putString("ssid", WiFi.SSID());  // Ğ´Èëssid
-    prefs.putString("passwd", WiFi.psk()); // Ğ´Èëpasswd
-    prefs.end();                           // ¹Ø±ÕÃüÃû¿Õ¼äconfig
-    Serial.println("[ÍøÂç¹ÜÀí]:ÅäÍøÍê³É£¬µÈ´ı30ÃëÖØÆô");
-    show_tips("ÅäÍø³É¹¦£¬ÇëÖØÆô", WiFi.SSID() + "\\rÃÜÂë: " + WiFi.psk(), "0"); // ÏÔÊ¾ÌáÊ¾
+    prefs.putString("ssid", WiFi.SSID());  // å†™å…¥ssid
+    prefs.putString("passwd", WiFi.psk()); // å†™å…¥passwd
+    prefs.end();                           // å…³é—­å‘½åç©ºé—´config
+    PLATFORM_PRINTLN("[ç½‘ç»œç®¡ç†]:é…ç½‘å®Œæˆï¼Œç­‰å¾…30ç§’é‡å¯");
+    show_tips(network_config_suceess_msg, WiFi.SSID() + "\\rå¯†ç : " + WiFi.psk(), "0"); // æ˜¾ç¤ºæç¤º
     delay(30000);
     ESP.restart();
 }
@@ -58,7 +59,7 @@ void network_config_begin()
         NULL,                  /* Parameter passed as input of the task */
         1,                     /* Priority of the task. */
         NULL);                 /* Task handle. */
-    Task_Die();                // ÏÈ°ÑËùÓĞÏß³ÌÈ«²¿½áÊø
+    Task_Die();                // å…ˆæŠŠæ‰€æœ‰çº¿ç¨‹å…¨éƒ¨ç»“æŸ
 }
 
 void Network_while()
@@ -67,17 +68,17 @@ void Network_while()
     {
         if (WiFi.status() == WL_CONNECTED)
         {
-            // ÁªÍø³É¹¦»Øµ÷
-            Serial.print("[ÍøÂç¹ÜÀí]:ÁªÍø³É¹¦£¬IP:");
-            Serial.println(WiFi.localIP());
-            configTime(60*60*8, 0, "ntp3.aliyun.com");    // ÓÃµÄ°¢ÀïÔÆµÄ·şÎñÆ÷
-            // ¼ÈÈ»ÒÑ¾­ÁªÍø³É¹¦ÁË£¬ÄÇÎªÊ²Ã´²»¹ÒÔØ MQTT ÄØ
+            // è”ç½‘æˆåŠŸå›è°ƒ
+            Serial.print("[ç½‘ç»œç®¡ç†]:è”ç½‘æˆåŠŸï¼ŒIP:");
+            PLATFORM_PRINTLN(WiFi.localIP());
+            configTime(60 * 60 * 8, 0, "ntp3.aliyun.com"); // ç”¨çš„é˜¿é‡Œäº‘çš„æœåŠ¡å™¨
+            // æ—¢ç„¶å·²ç»è”ç½‘æˆåŠŸäº†ï¼Œé‚£ä¸ºä»€ä¹ˆä¸æŒ‚è½½ MQTT å‘¢
             // mqtt_int();
         }
         else
         {
-            // ÍøÂç¶Ï¿ª»Øµ÷
-            Serial.println("[ÍøÂç¹ÜÀí]:ÍøÂç¶Ï¿ª");
+            // ç½‘ç»œæ–­å¼€å›è°ƒ
+            PLATFORM_PRINTLN("[ç½‘ç»œç®¡ç†]:ç½‘ç»œæ–­å¼€");
             // mqtt_disable();
         }
     }

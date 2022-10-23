@@ -2,6 +2,7 @@
 #include "HardwareSerial.h"
 #include <Serial_LCD.h>
 #include <Variables.h>
+#include <GBK_SOURCE.h>
 #include <task.h>
 
 extern HardwareSerial LCD_Serial;
@@ -9,11 +10,11 @@ extern HardwareSerial mySerial;
 
 void debug_LCD_Task(void *parameter)
 {
-    Serial.println("[调试]:开始调试屏幕，转发屏幕数据");
+    PLATFORM_PRINTLN("[璋冭瘯]:寮�濮嬭皟璇曞睆骞曪紝杞彂灞忓箷鏁版嵁");
 
     LCD_print("page 8");
     LCD_print("backtim.en=0");
-    LCD_print("t0.txt=\"调试屏幕中\"");
+    LCD_print("t0.txt=\"" + debug_screen_msg + "\"");
 
     delay(100);
     while (1)
@@ -32,11 +33,11 @@ void debug_LCD_Task(void *parameter)
 
 void debug_finger_Task(void *parameter)
 {
-    Serial.println("[调试]:开始调试指纹模块，转发指纹模块数据");
+    PLATFORM_PRINTLN("[璋冭瘯]:寮�濮嬭皟璇曟寚绾规ā鍧楋紝杞彂鎸囩汗妯″潡鏁版嵁");
 
     LCD_print("page 8");
     LCD_print("backtim.en=0");
-    LCD_print("t0.txt=\"调试指纹模块中\"");
+    LCD_print("t0.txt=\"" + debug_fingerprint_msg + "\"");
 
     delay(100);
     while (1)

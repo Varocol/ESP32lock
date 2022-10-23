@@ -55,5 +55,5 @@
         "typeinfo": "cpp",
         "regex": "cpp"
     },
-    "files.encoding": "gbk"
+    "files.encoding": "utf8"
 }

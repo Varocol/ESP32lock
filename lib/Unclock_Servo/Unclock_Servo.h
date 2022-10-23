@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <ESP32Servo.h>
+#include <Variables.h>
 
 void unclock_servo_setup();
 void unclock_servo_open();

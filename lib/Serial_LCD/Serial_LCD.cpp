@@ -7,24 +7,24 @@
 #include "WiFi.h"
 
 extern int page_position;
-int page_state;               // ÆÁÄ»µ±Ç°Ò³ÃæID±ê¼Ç
-HardwareSerial LCD_Serial(1); //ÆÁÄ»Èí´®¿Ú
+int page_state;               // å±å¹•å½“å‰é¡µé¢IDæ ‡è®°
+HardwareSerial LCD_Serial(1); //å±å¹•è½¯ä¸²å£
 
 void LCD_debug(String str)
 {
-  Serial.println("[LCDÆÁÄ»]:" + str); //´òÓ¡comdataÊı¾İ
+  PLATFORM_PRINTLN("[LCDå±å¹•]:" + str); //æ‰“å°comdataæ•°æ®
 }
 
 void LCD_setup()
 {
   LCD_Serial.begin(115200, SERIAL_8N1, 22, 23);
-  //ÒòÎª´®¿ÚÆÁ¿ª»ú»á·¢ËÍ88 ff ff ff,ËùÒÔÒªÇå¿Õ´®¿Ú»º³åÇø
+  //å› ä¸ºä¸²å£å±å¼€æœºä¼šå‘é€88 ff ff ff,æ‰€ä»¥è¦æ¸…ç©ºä¸²å£ç¼“å†²åŒº
   while (LCD_Serial.read() >= 0)
-    ;                               //Çå¿Õ´®¿Ú»º³åÇø
-  LCD_Serial.print("\xff\xff\xff"); //¹ıÂËÊı¾İ
+    ;                               //æ¸…ç©ºä¸²å£ç¼“å†²åŒº
+  LCD_Serial.print("\xff\xff\xff"); //è¿‡æ»¤æ•°æ®
   page_state = 0;
   LCD_print("page 13");
-  LCD_debug("ÆÁÄ»³õÊ¼»¯³É¹¦");
+  LCD_debug("å±å¹•åˆå§‹åŒ–æˆåŠŸ");
 }
 
 void LCD_print(String out_data)
@@ -35,15 +35,15 @@ void LCD_print(String out_data)
 
 void LCD_while()
 {
-  if (LCD_Serial.available() > 0) //ÅĞ¶ÁÊÇ·ñ´®¿ÚÓĞÊı¾İ
+  if (LCD_Serial.available() > 0) //åˆ¤è¯»æ˜¯å¦ä¸²å£æœ‰æ•°æ®
   {
-    String raw_data = "";              //»º´æÇåÁã
-    while (LCD_Serial.available() > 0) //Ñ­»·´®¿ÚÊÇ·ñÓĞÊı¾İ
+    String raw_data = "";              //ç¼“å­˜æ¸…é›¶
+    while (LCD_Serial.available() > 0) //å¾ªç¯ä¸²å£æ˜¯å¦æœ‰æ•°æ®
     {
-      raw_data += char(LCD_Serial.read()); //µş¼ÓÊı¾İµ½raw_data
-      delay(2);                            //ÑÓÊ±µÈ´ıÏìÓ¦
+      raw_data += char(LCD_Serial.read()); //å åŠ æ•°æ®åˆ°raw_data
+      delay(2);                            //å»¶æ—¶ç­‰å¾…å“åº”
     }
-    if (raw_data.length() > 0) //Èç¹ûraw_dataÓĞÊı¾İ
+    if (raw_data.length() > 0) //å¦‚æœraw_dataæœ‰æ•°æ®
     {
       deal_lcd_cmd(raw_data);
     }
@@ -75,7 +75,7 @@ void deal_lcd_cmd(String raw_data)
 
   if (raw_data_arry.size() < 1)
   {
-    LCD_debug("ÎŞĞ§µÄÆÁÄ»´®¿ÚÊı¾İ");
+    LCD_debug("æ— æ•ˆçš„å±å¹•ä¸²å£æ•°æ®");
     return;
   }
 
@@ -85,8 +85,8 @@ void deal_lcd_cmd(String raw_data)
   }
   if (raw_data_arry.at(0) == "del")
   {
-    // Ô¤É¾³ı£¬µ¯³öÌáÊ¾¿ò
-    show_confirm("ÌáÊ¾", "È·ÈÏÉ¾³ı" + raw_data_arry.at(1) + "Âğ£¿", "2", "delR|" + raw_data_arry.at(1) + "|0");
+    // é¢„åˆ é™¤ï¼Œå¼¹å‡ºæç¤ºæ¡†
+    show_confirm("æç¤º", "ç¡®è®¤åˆ é™¤" + raw_data_arry.at(1) + "å—ï¼Ÿ", "2", "delR|" + raw_data_arry.at(1) + "|0");
   }
   if (raw_data_arry.at(0) == "delR")
   {
@@ -98,8 +98,8 @@ void deal_lcd_cmd(String raw_data)
   }
   if (raw_data_arry.at(0) == "chp")
   {
-    // Ô¤ÉèÖÃÓÃ»§ÃÜÂë£¬µ¯³öÌáÊ¾¿ò
-    show_confirm("ÌáÊ¾", "È·ÈÏÓÃ»§ÃÜÂë: " + raw_data_arry.at(1) + " Âğ£¿", "6", "chpR|" + raw_data_arry.at(1) + "|0");
+    // é¢„è®¾ç½®ç”¨æˆ·å¯†ç ï¼Œå¼¹å‡ºæç¤ºæ¡†
+    show_confirm("æç¤º", "ç¡®è®¤ç”¨æˆ·å¯†ç : " + raw_data_arry.at(1) + " å—ï¼Ÿ", "6", "chpR|" + raw_data_arry.at(1) + "|0");
   }
   if (raw_data_arry.at(0) == "chpR")
   {
@@ -107,8 +107,8 @@ void deal_lcd_cmd(String raw_data)
   }
   if (raw_data_arry.at(0) == "cha")
   {
-    // Ô¤ÉèÖÃ¹ÜÀíÃÜÂë£¬µ¯³öÌáÊ¾¿ò
-    show_confirm("ÌáÊ¾", "È·ÈÏ¹ÜÀíÃÜÂë: " + raw_data_arry.at(1) + " Âğ£¿", "6", "chaR|" + raw_data_arry.at(1) + "|0");
+    // é¢„è®¾ç½®ç®¡ç†å¯†ç ï¼Œå¼¹å‡ºæç¤ºæ¡†
+    show_confirm("æç¤º", "ç¡®è®¤ç®¡ç†å¯†ç : " + raw_data_arry.at(1) + " å—ï¼Ÿ", "6", "chaR|" + raw_data_arry.at(1) + "|0");
   }
   if (raw_data_arry.at(0) == "chaR")
   {
@@ -121,7 +121,7 @@ void deal_lcd_cmd(String raw_data)
   if (raw_data_arry.at(0) == "page")
   {
     page_state = raw_data_arry.at(1).toInt();
-    LCD_debug("ÆÁÄ»ÇĞ»»µ½" + String(page_state));
+    LCD_debug("å±å¹•åˆ‡æ¢åˆ°" + String(page_state));
     if (page_state == 14)
     {
       page_position = 0;
@@ -168,8 +168,8 @@ void deal_lcd_cmd(String raw_data)
 }
 
 /**
- * ¿ØÖÆÆÁÄ»·µ»ØÖ÷Ò³Ãæ
- * @return ¿Õ
+ * æ§åˆ¶å±å¹•è¿”å›ä¸»é¡µé¢
+ * @return ç©º
  */
 void back_home_page()
 {
@@ -177,12 +177,12 @@ void back_home_page()
 }
 
 /**
- * µ¯³ö¶Ô»°¿ò
- * @param title ±êÌâ
- * @param center ÕıÎÄ
- * @param last_page ·µ»ØÒ³ÃæID
- * @param cmd µã»÷È·ÈÏÖ´ĞĞµÄÃüÁî
- * @return ¿Õ
+ * å¼¹å‡ºå¯¹è¯æ¡†
+ * @param title æ ‡é¢˜
+ * @param center æ­£æ–‡
+ * @param last_page è¿”å›é¡µé¢ID
+ * @param cmd ç‚¹å‡»ç¡®è®¤æ‰§è¡Œçš„å‘½ä»¤
+ * @return ç©º
  */
 void show_confirm(String title, String center, String last_page, String cmd)
 {
@@ -194,11 +194,11 @@ void show_confirm(String title, String center, String last_page, String cmd)
 }
 
 /**
- * µ¯³öÌáÊ¾¿ò
- * @param title ±êÌâ
- * @param center ÕıÎÄ
- * @param last_page ·µ»ØÒ³ÃæID
- * @return ¿Õ
+ * å¼¹å‡ºæç¤ºæ¡†
+ * @param title æ ‡é¢˜
+ * @param center æ­£æ–‡
+ * @param last_page è¿”å›é¡µé¢ID
+ * @return ç©º
  */
 void show_tips(String title, String center, String last_page)
 {
@@ -209,9 +209,9 @@ void show_tips(String title, String center, String last_page)
 }
 
 /**
- * ½øÈë¹ÜÀíÔ±²Ëµ¥
- * @param password ½âËøÃÜÂë
- * @return ¿Õ
+ * è¿›å…¥ç®¡ç†å‘˜èœå•
+ * @param password è§£é”å¯†ç 
+ * @return ç©º
  */
 void show_admin(String password)
 {
@@ -219,13 +219,13 @@ void show_admin(String password)
   LCD_print("page 7");
 }
 /**
- * ½øÈëÑ¡Ôñ²Ëµ¥
- * @return ¿Õ
+ * è¿›å…¥é€‰æ‹©èœå•
+ * @return ç©º
  */
 void show_menu()
 {
   delay(800);
-  //¼ì²âGPIO0µçÆ½£¨Ïû¶¶£©
+  //æ£€æµ‹GPIO0ç”µå¹³ï¼ˆæ¶ˆæŠ–ï¼‰
   if (digitalRead(0) == 0)
   {
     if (page_state == 0)
@@ -234,8 +234,8 @@ void show_menu()
 }
 
 /**
- * ¿ª»ú»­Ãæ
- * @return ¿Õ
+ * å¼€æœºç”»é¢
+ * @return ç©º
  */
 void show_first()
 {

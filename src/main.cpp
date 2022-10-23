@@ -4,24 +4,24 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  LCD_setup(); //³õÊ¼»¯LCD
+  LCD_setup(); //åˆå§‹åŒ–LCD
 
-  show_first(); //¿ª»ú»­Ãæ
+  show_first(); //å¼€æœºç”»é¢
   delay(500);
-  Store_Init();          //³õÊ¼»¯´æ´¢
-  unclock_servo_setup(); //³õÊ¼»¯¶æ»ú
-  setup_wifi();          //³õÊ¼»¯wifi
-  FingerPrint_Init();    //³õÊ¼»¯Ö¸ÎÆÄ£¿é
-  Task_int();            //³õÊ¼»¯¶àÏß³Ì
-  int_web();             //³õÊ¼»¯web·şÎñÆ÷
-  //µ±°´ÏÂ IO0 °´Å¥£¬½øÈë²Ëµ¥
+  Store_Init();          //åˆå§‹åŒ–å­˜å‚¨
+  unclock_servo_setup(); //åˆå§‹åŒ–èˆµæœº
+  setup_wifi();          //åˆå§‹åŒ–wifi
+  FingerPrint_Init();    //åˆå§‹åŒ–æŒ‡çº¹æ¨¡å—
+  Task_int();            //åˆå§‹åŒ–å¤šçº¿ç¨‹
+  int_web();             //åˆå§‹åŒ–webæœåŠ¡å™¨
+  //å½“æŒ‰ä¸‹ IO0 æŒ‰é’®ï¼Œè¿›å…¥èœå•
   pinMode(0, INPUT);
-  attachInterrupt(0, show_menu, FALLING); // ÉèÖÃÍâ²¿ÖĞ¶Ï
-  //µ±ÓĞÊÖÖ¸ÔÚÖ¸ÎÆ´«¸ĞÆ÷ÉÏ£¬×¼±¸Ö¸ÎÆÊ¶±ğ
+  attachInterrupt(0, show_menu, FALLING); // è®¾ç½®å¤–éƒ¨ä¸­æ–­
+  //å½“æœ‰æ‰‹æŒ‡åœ¨æŒ‡çº¹ä¼ æ„Ÿå™¨ä¸Šï¼Œå‡†å¤‡æŒ‡çº¹è¯†åˆ«
   pinMode(18, INPUT_PULLDOWN);
-  attachInterrupt(18, FingerPrint_Unlock, RISING); // ÉèÖÃÍâ²¿ÖĞ¶Ï
-  // int_bt_Serial();  // Æô¶¯À¶ÑÀ´®¿Ú
-  back_home_page(); //¿ª»úÍê³É£¬·µ»ØÖ÷ÆÁ
+  attachInterrupt(18, FingerPrint_Unlock, RISING); // è®¾ç½®å¤–éƒ¨ä¸­æ–­
+  // int_bt_Serial();  // å¯åŠ¨è“ç‰™ä¸²å£
+  back_home_page(); //å¼€æœºå®Œæˆï¼Œè¿”å›ä¸»å±
 }
 
 void loop()

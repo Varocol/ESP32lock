@@ -32,7 +32,8 @@ typedef enum
     Finger_Search_FingerPrint = 1,
     Finger_Search_Name,
 } Finger_Search_Mode;
-//���ܺ���
+//TODO 备份json,上传指纹库,备份指纹库
+//功能函数
 void FingerPrint_Init();
 void FingerPrint_Enroll(String input_id);
 void FingerPrint_Delete(String input_id);
@@ -47,7 +48,7 @@ void Store_Init();
 void Store_Check();
 void FingerPrint_Unlock();
 void Finger_Check_Task(void *parameter);
-//�Ӻ���
+//子函数
 void FingerPrint_ShowParameters();
 const char *FingerPrint_AnalyzeStatus(uint16_t status_code);
 void FingerPrint_NumSearch(vector<String> &data, String input_id);

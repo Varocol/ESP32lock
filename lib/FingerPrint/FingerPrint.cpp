@@ -2,146 +2,147 @@
 #include <Variables.h>
 #include <Serial_LCD.h>
 #include <Unclock_Servo.h>
+#include <GBK_SOURCE.h>
 
-extern int page_state; // ÆÁÄ»µ±Ç°Ò³ÃæID±ê¼Ç
+extern int page_state; // å±å¹•å½“å‰é¡µé¢IDæ ‡è®°
 /**
  * @author  @Varocol
- * @brief   Ö¸ÎÆÄ£¿é³õÊ¼»¯
+ * @brief   æŒ‡çº¹æ¨¡å—åˆå§‹åŒ–
  * @param   None
  * @return  None
  */
 void FingerPrint_Init()
 {
-    PLATFORM_SERIAL.println("<-------------Ö¸ÎÆÄ£¿é³õÊ¼»¯------------->");
-    //ÉèÖÃÒı½Å
+    PLATFORM_PRINTLN("<-------------æŒ‡çº¹æ¨¡å—åˆå§‹åŒ–------------->");
+    //è®¾ç½®å¼•è„š
     mySerial.begin(fingerprint_param.SoftwareBaudrate, SERIAL_8N1, fingerprint_param.Rx, fingerprint_param.Tx);
-    //ÑéÖ¤ÃÜÂë
+    //éªŒè¯å¯†ç 
     if (PLATFORM_FINGER.verifyPassword())
     {
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:ÕÒµ½Ö¸ÎÆÊ¶±ğÄ£¿é");
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æ‰¾åˆ°æŒ‡çº¹è¯†åˆ«æ¨¡å—");
         uint8_t status;
         uint8_t time_limit;
-        // ÉèÖÃ°ü´óĞ¡
+        // è®¾ç½®åŒ…å¤§å°
         time_limit = FINGER_TIMELIMIT;
         while ((status = PLATFORM_FINGER.setPacketSize(fingerprint_param.PacketSize)) != FINGERPRINT_OK && time_limit != 0)
         {
-            //×´Ì¬½âÎö
-            PLATFORM_SERIAL.println(FingerPrint_AnalyzeStatus(status));
-            //ÑÓÊ±100ms
+            //çŠ¶æ€è§£æ
+            PLATFORM_PRINTLN(FingerPrint_AnalyzeStatus(status));
+            //å»¶æ—¶100ms
             delay(100);
             time_limit--;
         }
         if (time_limit == 0)
         {
-            PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆÊı¾İ°ü´óĞ¡ÉèÖÃÊ§°Ü");
+            PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹æ•°æ®åŒ…å¤§å°è®¾ç½®å¤±è´¥");
         }
         else
         {
-            PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆÊı¾İ°ü´óĞ¡ÉèÖÃ³É¹¦");
+            PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹æ•°æ®åŒ…å¤§å°è®¾ç½®æˆåŠŸ");
         }
-        //ÉèÖÃÍ¨Ñ¶ËÙÂÊ
+        //è®¾ç½®é€šè®¯é€Ÿç‡
         time_limit = FINGER_TIMELIMIT;
         while ((status = PLATFORM_FINGER.setBaudRate(fingerprint_param.Baudrate)) != FINGERPRINT_OK && time_limit != 0)
         {
-            //×´Ì¬½âÎö
-            PLATFORM_SERIAL.println(FingerPrint_AnalyzeStatus(status));
-            //ÑÓÊ±100ms
+            //çŠ¶æ€è§£æ
+            PLATFORM_PRINTLN(FingerPrint_AnalyzeStatus(status));
+            //å»¶æ—¶100ms
             delay(100);
             time_limit--;
         }
         if (time_limit == 0)
         {
-            PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Í¨Ñ¶ËÙÂÊÉèÖÃÊ§°Ü");
+            PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:é€šè®¯é€Ÿç‡è®¾ç½®å¤±è´¥");
         }
         else
         {
-            PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Í¨Ñ¶ËÙÂÊÉèÖÃ³É¹¦");
+            PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:é€šè®¯é€Ÿç‡è®¾ç½®æˆåŠŸ");
         }
-        //ÑÓÊ±»º³å
+        //å»¶æ—¶ç¼“å†²
         delay(100);
 #if FINGER_SETPASSWORD
-        //ÉèÖÃÃÜÂë
+        //è®¾ç½®å¯†ç 
         time_limit = FINGER_TIMELIMIT;
         while ((status = PLATFORM_FINGER.setPassword(fingerprint_param.Password)) != FINGERPRINT_OK && time_limit != 0)
         {
-            //×´Ì¬½âÎö
-            PLATFORM_SERIAL.println(FingerPrint_analyzeStatus(status));
-            //ÑÓÊ±100ms
+            //çŠ¶æ€è§£æ
+            PLATFORM_PRINTLN(FingerPrint_analyzeStatus(status));
+            //å»¶æ—¶100ms
             delay(100);
             time_limit--;
         }
         if (time_limit == 0)
         {
-            PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:ÃÜÂëÉèÖÃÊ§°Ü");
+            PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:å¯†ç è®¾ç½®å¤±è´¥");
         }
         else
         {
-            PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:ÃÜÂëÉèÖÃ³É¹¦");
+            PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:å¯†ç è®¾ç½®æˆåŠŸ");
         }
 #endif
-        //ÉèÖÃ°²È«µÈ¼¶
+        //è®¾ç½®å®‰å…¨ç­‰çº§
         time_limit = FINGER_TIMELIMIT;
         while ((status = PLATFORM_FINGER.setSecurityLevel(fingerprint_param.SecurityLevel)) != FINGERPRINT_OK && time_limit != 0)
         {
-            //×´Ì¬½âÎö
-            PLATFORM_SERIAL.println(FingerPrint_AnalyzeStatus(status));
-            //ÑÓÊ±100ms
+            //çŠ¶æ€è§£æ
+            PLATFORM_PRINTLN(FingerPrint_AnalyzeStatus(status));
+            //å»¶æ—¶100ms
             delay(100);
             time_limit--;
         }
         if (time_limit == 0)
         {
-            PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:°²È«µÈ¼¶ÉèÖÃÊ§°Ü");
+            PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:å®‰å…¨ç­‰çº§è®¾ç½®å¤±è´¥");
         }
         else
         {
-            PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:°²È«µÈ¼¶ÉèÖÃ³É¹¦");
+            PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:å®‰å…¨ç­‰çº§è®¾ç½®æˆåŠŸ");
         }
-        //ÏÔÊ¾ÉèÖÃºóµÄ²ÎÊı
+        //æ˜¾ç¤ºè®¾ç½®åçš„å‚æ•°
         FingerPrint_ShowParameters();
-        //´ÓÄ£¿éÖĞ»ñÈ¡´æÔÚµÄÖ¸ÎÆË÷Òı±í
+        //ä»æ¨¡å—ä¸­è·å–å­˜åœ¨çš„æŒ‡çº¹ç´¢å¼•è¡¨
         FingerPrint_GetIndexTable();
-        //´ÓÎÄ¼şÏµÍ³¼ÓÔØÖ¸ÎÆË÷Òı±íÖĞÓ³ÉäµÄĞÅÏ¢(Ñ§ºÅ¡¢²éÑ¯ĞÅÏ¢)
+        //ä»æ–‡ä»¶ç³»ç»ŸåŠ è½½æŒ‡çº¹ç´¢å¼•è¡¨ä¸­æ˜ å°„çš„ä¿¡æ¯(å­¦å·ã€æŸ¥è¯¢ä¿¡æ¯)
         FingerPrint_LoadList();
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆÊ¶±ğÄ£¿é³õÊ¼»¯³É¹¦");
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹è¯†åˆ«æ¨¡å—åˆå§‹åŒ–æˆåŠŸ");
     }
     else
     {
-        show_tips("ÑÏÖØ´íÎó", "Î´ÄÜÕÒµ½Ö¸ÎÆÊ¶±ğÄ£¿é\\rÇëÖØÆô", "0");
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Î´ÄÜÕÒµ½Ö¸ÎÆÊ¶±ğÄ£¿é");
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆÊ¶±ğÄ£¿é³õÊ¼»¯Ê§°Ü");
+        show_tips(serious_error_msg, fingerprint_error_msg, "0");
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æœªèƒ½æ‰¾åˆ°æŒ‡çº¹è¯†åˆ«æ¨¡å—");
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹è¯†åˆ«æ¨¡å—åˆå§‹åŒ–å¤±è´¥");
     }
 }
 
 /**
  * @author  @Varocol
- * @brief   »ñÈ¡Ä£¿é²ÎÊı²¢Í¨¹ı´®¿ÚÏÔÊ¾
+ * @brief   è·å–æ¨¡å—å‚æ•°å¹¶é€šè¿‡ä¸²å£æ˜¾ç¤º
  * @param   None
  * @return  None
  */
 void FingerPrint_ShowParameters()
 {
-    PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:»ñÈ¡Ä£¿é²ÎÊı");
-    //»ñÈ¡Ö¸ÎÆÄ£¿é²ÎÊı
+    PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:è·å–æ¨¡å—å‚æ•°");
+    //è·å–æŒ‡çº¹æ¨¡å—å‚æ•°
     uint8_t time_limit = FINGER_TIMELIMIT;
     while (PLATFORM_FINGER.getParameters() != FINGERPRINT_OK && time_limit != 0)
     {
         time_limit--;
-        //ÑÓÊ±100ms
+        //å»¶æ—¶100ms
         delay(100);
     }
     if (time_limit != 0)
     {
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:ÃÜÂë²âÊÔÍ¨¹ı");
-        PLATFORM_SERIAL.printf(
-            "-----------Ö¸ÎÆÄ£¿é²ÎÊı----------\n"
-            "×´Ì¬:%s\n"
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:å¯†ç æµ‹è¯•é€šè¿‡");
+        PLATFORM_PRINTF(
+            "-----------æŒ‡çº¹æ¨¡å—å‚æ•°----------\n"
+            "çŠ¶æ€:%s\n"
             "ID:%d\n"
-            "ÈİÁ¿:%d\n"
-            "Ê¶±ğµÈ¼¶(1~5):%d\n"
-            "Éè±¸µØÖ·:%#x\n"
-            "Êı¾İ°ü´óĞ¡:%d\n"
-            "²¨ÌØÂÊ:%d\n"
+            "å®¹é‡:%d\n"
+            "è¯†åˆ«ç­‰çº§(1~5):%d\n"
+            "è®¾å¤‡åœ°å€:%#x\n"
+            "æ•°æ®åŒ…å¤§å°:%d\n"
+            "æ³¢ç‰¹ç‡:%d\n"
             "--------------------------------\n",
             FingerPrint_AnalyzeStatus(PLATFORM_FINGER.status_reg),
             PLATFORM_FINGER.system_id,
@@ -153,201 +154,201 @@ void FingerPrint_ShowParameters()
     }
     else
     {
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:ÃÜÂë²âÊÔÊ§°Ü");
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:å¯†ç æµ‹è¯•å¤±è´¥");
     }
 }
 /**
  * @author  @Varocol
- * @brief   ×´Ì¬½âÎö
+ * @brief   çŠ¶æ€è§£æ
  * @param   uint8_t     status_code
- * @return  ×´Ì¬¶ÔÓ¦µÄĞÅÏ¢
+ * @return  çŠ¶æ€å¯¹åº”çš„ä¿¡æ¯
  */
 const char *FingerPrint_AnalyzeStatus(uint16_t status_code)
 {
     switch (status_code)
     {
     case FINGERPRINT_OK:
-        return "Ö¸ÎÆÄ£¿éÒÑ¾ÍĞ÷";
+        return "æŒ‡çº¹æ¨¡å—å·²å°±ç»ª";
     case FINGERPRINT_PACKETRECIEVEERR:
-        return "Ö¸ÎÆÊı¾İ°ü´íÎó";
+        return "æŒ‡çº¹æ•°æ®åŒ…é”™è¯¯";
     case FINGERPRINT_NOFINGER:
-        return "Ã»ÓĞ¿ÉÊ¶±ğµÄÊÖÖ¸";
+        return "æ²¡æœ‰å¯è¯†åˆ«çš„æ‰‹æŒ‡";
     case FINGERPRINT_IMAGEFAIL:
-        return "Ö¸ÎÆÍ¼Ïñ»ìÂÒ";
+        return "æŒ‡çº¹å›¾åƒæ··ä¹±";
     case FINGERPRINT_FEATUREFAIL:
-        return "Ö¸ÎÆÌØÕ÷µãÈ±Ê§";
+        return "æŒ‡çº¹ç‰¹å¾ç‚¹ç¼ºå¤±";
     case FINGERPRINT_NOMATCH:
-        return "Ö¸ÎÆ²»Æ¥Åä";
+        return "æŒ‡çº¹ä¸åŒ¹é…";
     case FINGERPRINT_NOTFOUND:
-        return "ÕÒ²»µ½¸ÃÖ¸ÎÆ";
+        return "æ‰¾ä¸åˆ°è¯¥æŒ‡çº¹";
     case FINGERPRINT_ENROLLMISMATCH:
-        return "Á½´ÎÂ¼ÈëÖ¸ÎÆ²»Æ¥Åä";
+        return "ä¸¤æ¬¡å½•å…¥æŒ‡çº¹ä¸åŒ¹é…";
     case FINGERPRINT_BADLOCATION:
-        return "Ö¸ÎÆÎŞ·¨´æ´¢ÔÚ¸ÃÎ»ÖÃ";
+        return "æŒ‡çº¹æ— æ³•å­˜å‚¨åœ¨è¯¥ä½ç½®";
     case FINGERPRINT_DBRANGEFAIL:
-        return "Ö¸ÎÆÄ£°å¶ÁÈ¡Ê§°Ü";
+        return "æŒ‡çº¹æ¨¡æ¿è¯»å–å¤±è´¥";
     case FINGERPRINT_UPLOADFEATUREFAIL:
-        return "Ö¸ÎÆÄ£°åÉÏ´«Ê§°Ü";
+        return "æŒ‡çº¹æ¨¡æ¿ä¸Šä¼ å¤±è´¥";
     case FINGERPRINT_PACKETRESPONSEFAIL:
-        return "Ö¸ÎÆÊı¾İ°üÏìÓ¦Ê§°Ü";
+        return "æŒ‡çº¹æ•°æ®åŒ…å“åº”å¤±è´¥";
     case FINGERPRINT_UPLOADFAIL:
-        return "Ö¸ÎÆÍ¼ÏñÉÏ´«Ê§°Ü";
+        return "æŒ‡çº¹å›¾åƒä¸Šä¼ å¤±è´¥";
     case FINGERPRINT_DELETEFAIL:
-        return "Ö¸ÎÆÄ£°åÉ¾³ıÊ§°Ü";
+        return "æŒ‡çº¹æ¨¡æ¿åˆ é™¤å¤±è´¥";
     case FINGERPRINT_DBCLEARFAIL:
-        return "Çå¿ÕÖ¸ÎÆ¿âÊ§°Ü";
+        return "æ¸…ç©ºæŒ‡çº¹åº“å¤±è´¥";
     case FINGERPRINT_PASSFAIL:
-        return "Ö¸ÎÆÄ£¿éÃÜÂë´íÎó";
+        return "æŒ‡çº¹æ¨¡å—å¯†ç é”™è¯¯";
     case FINGERPRINT_INVALIDIMAGE:
-        return "Í¼Ïñ´íÎó";
+        return "å›¾åƒé”™è¯¯";
     case FINGERPRINT_FLASHERR:
-        return "ÉÁ´æĞ´Èë´íÎó";
+        return "é—ªå­˜å†™å…¥é”™è¯¯";
     case FINGERPRINT_INVALIDREG:
-        return "´íÎóµÄ¼Ä´æÆ÷µØÖ·";
+        return "é”™è¯¯çš„å¯„å­˜å™¨åœ°å€";
     case FINGERPRINT_TIMEOUT:
-        return "Í¨Ñ¶³¬Ê±";
+        return "é€šè®¯è¶…æ—¶";
     case FINGERPRINT_BADPACKET:
-        return "Êı¾İ°üÒÑËğ»µ";
+        return "æ•°æ®åŒ…å·²æŸå";
     case FINGERPRINT_UNKOWNERR:
-        return "Î´ÖªµÄ´íÎó";
+        return "æœªçŸ¥çš„é”™è¯¯";
     case FINGERPRINT_REGCONTENTERR:
-        return "¼Ä´æÆ÷Éè¶¨ÄÚÈİ´íÎó";
+        return "å¯„å­˜å™¨è®¾å®šå†…å®¹é”™è¯¯";
     case FINGERPRINT_PAGERANGEERR:
-        return "¼ÇÊÂ±¾Ò³ÂëÖ¸¶¨´íÎó";
+        return "è®°äº‹æœ¬é¡µç æŒ‡å®šé”™è¯¯";
     case FINGERPRINT_COMOPERATEERR:
-        return "¶Ë¿Ú²Ù×÷Ê§°Ü";
+        return "ç«¯å£æ“ä½œå¤±è´¥";
     case FINGERPRINT_AUTOENROLLERR:
-        return "×Ô¶¯×¢²á(enroll)Ê§°Ü";
+        return "è‡ªåŠ¨æ³¨å†Œ(enroll)å¤±è´¥";
     case FINGERPRINT_DBFULL:
-        return "Ö¸ÎÆ¿âÂú";
+        return "æŒ‡çº¹åº“æ»¡";
     default:
-        return "Î´ÖªµÄ×´Ì¬";
+        return "æœªçŸ¥çš„çŠ¶æ€";
     }
 }
 
 /**
  * @author  @Varocol
- * @brief   Ö¸ÎÆÂ¼Èë(Èç¹ûÒÑÓĞÖ¸ÎÆÔò²»Â¼Èë)
- * @param   input_id Ñ§ºÅ
- * @return  ¿Õ
+ * @brief   æŒ‡çº¹å½•å…¥(å¦‚æœå·²æœ‰æŒ‡çº¹åˆ™ä¸å½•å…¥)
+ * @param   input_id å­¦å·
+ * @return  ç©º
  */
 void FingerPrint_Enroll(String input_id)
 {
     uint8_t status;
-    LCD_print("t0.txt=\"Çë·ÅÖÃÊÖÖ¸µ½ÎÆ´«¸ĞÆ÷\""); //ÌáÊ¾ĞÅÏ¢
-    LCD_print("backtim.en=0");                    //·ÅÔÚÌáÊ¾Ğ¾Æ¬ËÀ»ú
-    //µÈ´ıÊÖÖ¸·ÅÏÂ
+    LCD_print("t0.txt=\"" + place_finger_msg + "\""); //æç¤ºä¿¡æ¯
+    LCD_print("backtim.en=0");                        //æ”¾åœ¨æç¤ºèŠ¯ç‰‡æ­»æœº
+    //ç­‰å¾…æ‰‹æŒ‡æ”¾ä¸‹
     while (PLATFORM_FINGER.getImage() == FINGERPRINT_NOFINGER)
         delay(1);
-    //¼ì²éÖ¸ÎÆÊÇ·ñÒÑ´æÔÚÖ¸ÎÆ¿â
+    //æ£€æŸ¥æŒ‡çº¹æ˜¯å¦å·²å­˜åœ¨æŒ‡çº¹åº“
     if (PLATFORM_FINGER.autoIdentify() == FINGERPRINT_OK)
     {
         String school_id = finger_data[String(PLATFORM_FINGER.fingerID)][finger_keys.school_id].as<String>();
         uint32_t operations_cnt = finger_data[String(PLATFORM_FINGER.fingerID)][finger_keys.operations_cnt].as<uint32_t>();
-        PLATFORM_SERIAL.printf(
-            "[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆ¿âÒÑÓĞ¸ÃÖ¸ÎÆ\n"
-            "[Ö¸ÎÆÄ£¿é]:[Ö¸ÎÆID:%d|Æ¥Åä¶È:%d|Ñ§ºÅ:%s|ËÑË÷´ÎÊı:%d]\n",
+        PLATFORM_PRINTF(
+            "[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹åº“å·²æœ‰è¯¥æŒ‡çº¹\n"
+            "[æŒ‡çº¹æ¨¡å—]:[æŒ‡çº¹ID:%d|åŒ¹é…åº¦:%d|å­¦å·:%s|æœç´¢æ¬¡æ•°:%d]\n",
             PLATFORM_FINGER.fingerID,
             PLATFORM_FINGER.confidence,
             school_id.c_str(),
             operations_cnt);
-        PLATFORM_SERIAL.println("<---------------------------------->");
-        show_tips("Â¼ÈëÊ§°Ü", "Ö¸ÎÆ¿âÒÑÓĞ¸ÃÖ¸ÎÆ\\rÖ¸ÎÆID:" + String(PLATFORM_FINGER.fingerID) + "  Ñ§ºÅ:" + school_id.c_str() + "\\rÆ¥Åä¶È:" + String(PLATFORM_FINGER.confidence), "2");
+        PLATFORM_PRINTLN("<---------------------------------->");
+        show_tips(enroll_fail_msg, find_fingerprint_msg + String(PLATFORM_FINGER.fingerID) + school_id_msg_1 + school_id.c_str() + confident_msg + String(PLATFORM_FINGER.confidence), "2");
         return;
     }
 #if FINGER_AUTOENROLL
     while ((status = PLATFORM_FINGER.autoEnroll()) != FINGERPRINT_OK)
     {
-        PLATFORM_SERIAL.println(FingerPrint_AnalyzeStatus(status));
+        PLATFORM_PRINTLN(FingerPrint_AnalyzeStatus(status));
     }
     uint16_t pos = PLATFORM_FINGER.autoEnrollindex;
 #else
     for (int i = 1; i <= 2; i++)
     {
-        PLATFORM_SERIAL.printf("²É¼¯ÌØÕ÷µãÄ£°å%d\n", i);
-        PLATFORM_SERIAL.println("Í¼Ïñ²É¼¯ÖĞ");
+        PLATFORM_PRINTF("é‡‡é›†ç‰¹å¾ç‚¹æ¨¡æ¿%d\n", i);
+        PLATFORM_PRINTLN("å›¾åƒé‡‡é›†ä¸­");
 
-        //²É¼¯ÌØÕ÷µãÄ£°å1µÄÍ¼Ïñ
+        //é‡‡é›†ç‰¹å¾ç‚¹æ¨¡æ¿1çš„å›¾åƒ
         while ((status = PLATFORM_FINGER.getImage()) != FINGERPRINT_OK)
         {
-            PLATFORM_SERIAL.println(FingerPrint_analyzeStatus(status));
+            PLATFORM_PRINTLN(FingerPrint_analyzeStatus(status));
         }
-        PLATFORM_SERIAL.println("Í¼Ïñ²É¼¯Íê³É");
-        //½«Í¼Ïñ×ª»»³ÉÄ£°å
+        PLATFORM_PRINTLN("å›¾åƒé‡‡é›†å®Œæˆ");
+        //å°†å›¾åƒè½¬æ¢æˆæ¨¡æ¿
         if ((status = PLATFORM_FINGER.image2Tz(i)) != FINGERPRINT_OK)
         {
-            PLATFORM_SERIAL.println(FingerPrint_analyzeStatus(status));
-            PLATFORM_SERIAL.println("<---------------------------------->");
+            PLATFORM_PRINTLN(FingerPrint_analyzeStatus(status));
+            PLATFORM_PRINTLN("<---------------------------------->");
             return status;
         }
-        PLATFORM_SERIAL.printf("ÌØÕ÷µãÄ£°å%d×ª»»³É¹¦\n", i);
+        PLATFORM_PRINTF("ç‰¹å¾ç‚¹æ¨¡æ¿%dè½¬æ¢æˆåŠŸ\n", i);
         if (i == 1)
         {
-            //²éÕÒÄ£°å1ÊÇ·ñÒÑ´æÔÚÖ¸ÎÆ¿â
+            //æŸ¥æ‰¾æ¨¡æ¿1æ˜¯å¦å·²å­˜åœ¨æŒ‡çº¹åº“
             if ((status = PLATFORM_FINGER.fingerFastSearch()) == FINGERPRINT_OK)
             {
                 String school_id = finger_data[String(PLATFORM_FINGER.fingerID)][finger_keys.school_id].as<String>();
                 uint32_t operations_cnt = finger_data[String(PLATFORM_FINGER.fingerID)][finger_keys.operations_cnt].as<uint32_t>();
-                PLATFORM_SERIAL.printf(
-                    "Ö¸ÎÆ¿âÒÑÓĞ¸ÃÖ¸ÎÆ\n"
-                    "[Ö¸ÎÆID:%d|Æ¥Åä¶È:%d|Ñ§ºÅ:%s|ËÑË÷´ÎÊı:%d]\n",
+                PLATFORM_PRINTF(
+                    "æŒ‡çº¹åº“å·²æœ‰è¯¥æŒ‡çº¹\n"
+                    "[æŒ‡çº¹ID:%d|åŒ¹é…åº¦:%d|å­¦å·:%s|æœç´¢æ¬¡æ•°:%d]\n",
                     PLATFORM_FINGER.fingerID,
                     PLATFORM_FINGER.confidence,
                     school_id.c_str(),
                     operations_cnt);
-                PLATFORM_SERIAL.println("<---------------------------------->");
+                PLATFORM_PRINTLN("<---------------------------------->");
                 return status;
             }
-            PLATFORM_SERIAL.printf("ÌØÕ÷µãÄ£°å%d²ÉÑùÍê³É,ÇëÄÃ¿ªÊÖÖ¸\n", i);
+            PLATFORM_PRINTF("ç‰¹å¾ç‚¹æ¨¡æ¿%dé‡‡æ ·å®Œæˆ,è¯·æ‹¿å¼€æ‰‹æŒ‡\n", i);
             delay(1000);
 
-            //µÈ´ıÊÖÖ¸ÄÃ¿ª
+            //ç­‰å¾…æ‰‹æŒ‡æ‹¿å¼€
             while (PLATFORM_FINGER.getImage() != FINGERPRINT_NOFINGER)
                 ;
 
-            PLATFORM_SERIAL.println("ÖØĞÂ·ÅÏÂÍ¬Ò»¸ùÊÖÖ¸");
+            PLATFORM_PRINTLN("é‡æ–°æ”¾ä¸‹åŒä¸€æ ¹æ‰‹æŒ‡");
         }
     }
-    //Á½¸öÌØÕ÷µãÄ£°å×ª»»Íê³ÉºóÕûºÏ²¢ĞÎ³É¿ÉÓÃµÄÄ£°å
-    PLATFORM_SERIAL.printf("ÎªÖ¸ÎÆ´´½¨Ä£°åÖĞ...\n");
+    //ä¸¤ä¸ªç‰¹å¾ç‚¹æ¨¡æ¿è½¬æ¢å®Œæˆåæ•´åˆå¹¶å½¢æˆå¯ç”¨çš„æ¨¡æ¿
+    PLATFORM_PRINTF("ä¸ºæŒ‡çº¹åˆ›å»ºæ¨¡æ¿ä¸­...\n");
     if ((status = PLATFORM_FINGER.createModel()) != FINGERPRINT_OK)
     {
-        PLATFORM_SERIAL.println(FingerPrint_analyzeStatus(status));
-        PLATFORM_SERIAL.println("<---------------------------------->");
+        PLATFORM_PRINTLN(FingerPrint_analyzeStatus(status));
+        PLATFORM_PRINTLN("<---------------------------------->");
         return status;
     }
-    PLATFORM_SERIAL.println("Á½´ÎÖ¸ÎÆÆ¥Åä³É¹¦");
-    //´æÈëÖ¸ÎÆ¿â
-    PLATFORM_SERIAL.println("´æÈëÖ¸ÎÆ¿â");
-    //²éÕÒ¿ÉÒÔ´æ´¢µÄ²ÛÎ»
+    PLATFORM_PRINTLN("ä¸¤æ¬¡æŒ‡çº¹åŒ¹é…æˆåŠŸ");
+    //å­˜å…¥æŒ‡çº¹åº“
+    PLATFORM_PRINTLN("å­˜å…¥æŒ‡çº¹åº“");
+    //æŸ¥æ‰¾å¯ä»¥å­˜å‚¨çš„æ§½ä½
     uint16_t pos;
     for (pos = 0; pos < PLATFORM_FINGER.IndexTable.size() && pos == PLATFORM_FINGER.IndexTable[pos]; pos++)
         ;
     if ((status = PLATFORM_FINGER.storeModel(pos)) != FINGERPRINT_OK)
     {
-        PLATFORM_SERIAL.println(FingerPrint_analyzeStatus(status));
-        PLATFORM_SERIAL.println("<---------------------------------->");
+        PLATFORM_PRINTLN(FingerPrint_analyzeStatus(status));
+        PLATFORM_PRINTLN("<---------------------------------->");
         return status;
     }
 #endif
-    LCD_print("t0.txt=\"Ê¶±ğ³É¹¦£¬ÇëÉÔºó\""); //ÌáÊ¾ĞÅÏ¢
-    PLATFORM_SERIAL.printf("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆÂ¼ÈëIDÎª%d\n", pos);
-    PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆÂ¼Èë³É¹¦");
-    //Ìí¼ÓÊôĞÔÖµ(Ñ§ºÅ,´ÎÊı)
+    LCD_print("t0.txt=\"" + recognize_sucess_msg + "\""); //æç¤ºä¿¡æ¯
+    PLATFORM_PRINTF("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹å½•å…¥IDä¸º%d\n", pos);
+    PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹å½•å…¥æˆåŠŸ");
+    //æ·»åŠ å±æ€§å€¼(å­¦å·,æ¬¡æ•°)
     JsonObject property = finger_data.createNestedObject(String(pos));
     property[finger_keys.school_id] = input_id;
     property[finger_keys.operations_cnt] = 0;
-    //¸üĞÂÖ¸ÎÆË÷Òı±í
+    //æ›´æ–°æŒ‡çº¹ç´¢å¼•è¡¨
     FingerPrint_GetIndexTable();
-    //¸üĞÂ´æ´¢ÎÄ¼şµÄË÷Òı±í
+    //æ›´æ–°å­˜å‚¨æ–‡ä»¶çš„ç´¢å¼•è¡¨
     FingerPrint_WriteList();
-    show_tips("Â¼Èë³É¹¦", "Ñ§ºÅ: " + input_id + " µÇ¼Ç³É¹¦\\rÖ¸ÎÆID: " + String(pos), "2");
+    show_tips(enroll_success_msg, school_id_msg_2 + input_id + register_success_msg + String(pos), "2");
     return;
 }
 
 void Finger_Check_Task(void *parameter)
 {
-    Serial.println("[Ïß³Ì¹ÜÀí]:Æô¶¯Ö¸ÎÆÊ¶±ğÏß³Ì");
+    PLATFORM_PRINTLN("[çº¿ç¨‹ç®¡ç†]:å¯åŠ¨æŒ‡çº¹è¯†åˆ«çº¿ç¨‹");
     FingerPrint_Search();
     vTaskDelete(NULL);
 }
@@ -355,7 +356,7 @@ void Finger_Check_Task(void *parameter)
 void FingerPrint_Unlock()
 {
     delay(800);
-    //¼ì²âGPIO18µçÆ½£¨Ïû¶¶£©
+    //æ£€æµ‹GPIO18ç”µå¹³ï¼ˆæ¶ˆæŠ–ï¼‰
     if (digitalRead(18) == HIGH)
     {
         if (page_state == 0)
@@ -374,46 +375,46 @@ void FingerPrint_Unlock()
 
 /**
  * @author  @Varocol
- * @brief   Ö¸ÎÆ²éÕÒ(Í¨¹ıÖ¸ÎÆËÑË÷)
+ * @brief   æŒ‡çº¹æŸ¥æ‰¾(é€šè¿‡æŒ‡çº¹æœç´¢)
  * @param   None
- * @return  Ö¸ÎÆÄ£¿é×´Ì¬Âë
+ * @return  æŒ‡çº¹æ¨¡å—çŠ¶æ€ç 
  */
 void FingerPrint_Search()
 {
     uint8_t status;
-    PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:¿ªÊ¼²éÕÒÖ¸ÎÆ");
-    PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:µÈ´ıÊÖÖ¸·ÅÖÃ...");
-    //µÈ´ıÊÖÖ¸·ÅÏÂ
+    PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:å¼€å§‹æŸ¥æ‰¾æŒ‡çº¹");
+    PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:ç­‰å¾…æ‰‹æŒ‡æ”¾ç½®...");
+    //ç­‰å¾…æ‰‹æŒ‡æ”¾ä¸‹
     while (PLATFORM_FINGER.getImage() == FINGERPRINT_NOFINGER)
         delay(1);
 #if FINGER_AUTOIDENTIFY
-    // Ö±½ÓËÑË÷
+    // ç›´æ¥æœç´¢
     status = PLATFORM_FINGER.autoIdentify();
 #else
-    //²É¼¯ÌØÕ÷µãÄ£°å1µÄÍ¼Ïñ
+    //é‡‡é›†ç‰¹å¾ç‚¹æ¨¡æ¿1çš„å›¾åƒ
     while ((status = PLATFORM_FINGER.getImage()) != FINGERPRINT_OK)
     {
-        PLATFORM_SERIAL.println(FingerPrint_analyzeStatus(status));
+        PLATFORM_PRINTLN(FingerPrint_analyzeStatus(status));
     }
-    PLATFORM_SERIAL.println("Í¼Ïñ²É¼¯Íê³É");
-    //½«Í¼Ïñ×ª»»³ÉÄ£°å
+    PLATFORM_PRINTLN("å›¾åƒé‡‡é›†å®Œæˆ");
+    //å°†å›¾åƒè½¬æ¢æˆæ¨¡æ¿
     if ((status = PLATFORM_FINGER.image2Tz()) != FINGERPRINT_OK)
     {
-        PLATFORM_SERIAL.println(FingerPrint_analyzeStatus(status));
+        PLATFORM_PRINTLN(FingerPrint_analyzeStatus(status));
         return status;
     }
-    PLATFORM_SERIAL.println("Ä£°å×ª»»³É¹¦");
-    //¿ìËÙ²éÕÒÖ¸ÎÆ¿â
+    PLATFORM_PRINTLN("æ¨¡æ¿è½¬æ¢æˆåŠŸ");
+    //å¿«é€ŸæŸ¥æ‰¾æŒ‡çº¹åº“
     status = PLATFORM_FINGER.fingerFastSearch();
 #endif
-    //ÕÒµ½Ö¸ÎÆ
+    //æ‰¾åˆ°æŒ‡çº¹
     if (status == FINGERPRINT_OK)
     {
         String school_id = finger_data[String(PLATFORM_FINGER.fingerID)][finger_keys.school_id].as<String>();
         uint32_t operations_cnt = finger_data[String(PLATFORM_FINGER.fingerID)][finger_keys.operations_cnt].as<uint32_t>();
-        PLATFORM_SERIAL.printf(
-            "[Ö¸ÎÆÄ£¿é]:ÕÒµ½Ö¸ÎÆ\n"
-            "[Ö¸ÎÆÄ£¿é]:[Ö¸ÎÆID:%d|Æ¥Åä¶È:%d|Ñ§ºÅ:%s|ËÑË÷´ÎÊı:%d]\n",
+        PLATFORM_PRINTF(
+            "[æŒ‡çº¹æ¨¡å—]:æ‰¾åˆ°æŒ‡çº¹\n"
+            "[æŒ‡çº¹æ¨¡å—]:[æŒ‡çº¹ID:%d|åŒ¹é…åº¦:%d|å­¦å·:%s|æœç´¢æ¬¡æ•°:%d]\n",
             PLATFORM_FINGER.fingerID,
             PLATFORM_FINGER.confidence,
             school_id.c_str(),
@@ -421,32 +422,32 @@ void FingerPrint_Search()
         finger_data[String(PLATFORM_FINGER.fingerID)][finger_keys.operations_cnt] = operations_cnt + 1;
         FingerPrint_WriteList();
         unclock_servo_open();
-        show_tips("ÌáÊ¾", "»¶Ó­ Ñ§ºÅ:" + school_id + "\\rÖ¸ÎÆID:" + String(PLATFORM_FINGER.fingerID) + "\\rÆ¥ÅäµÃ·Ö:" + String(PLATFORM_FINGER.confidence), "0");
+        show_tips(tip_msg, welcome_msg + school_id + finger_id_msg + String(PLATFORM_FINGER.fingerID) + confident_msg + String(PLATFORM_FINGER.confidence), "0");
     }
-    //Ã»ÓĞ¸ÃÖ¸ÎÆ
+    //æ²¡æœ‰è¯¥æŒ‡çº¹
     else if (status == FINGERPRINT_NOTFOUND)
     {
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆ¿âÖĞÃ»ÓĞ¸ÃÖ¸ÎÆ");
-        show_tips("ÌáÊ¾", "ÎŞĞ§Ö¸ÎÆ", "0");
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹åº“ä¸­æ²¡æœ‰è¯¥æŒ‡çº¹");
+        show_tips(tip_msg, invalid_finger_msg, "0");
     }
-    //²éÕÒ³ö´í
+    //æŸ¥æ‰¾å‡ºé”™
     else
     {
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Æ¥Åä³ö´í£¬");
-        PLATFORM_SERIAL.println(FingerPrint_AnalyzeStatus(status));
-        show_tips("ÇëÖØÊÔ", FingerPrint_AnalyzeStatus(status), "0");
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:åŒ¹é…å‡ºé”™ï¼Œ");
+        PLATFORM_PRINTLN(FingerPrint_AnalyzeStatus(status));
+        show_tips(retry_msg, FingerPrint_AnalyzeStatus(status), "0");
     }
     return;
 }
 /**
  * @author  @Varocol
- * @brief   Ö¸ÎÆ²éÕÒ(Í¨¹ıÑ§ºÅËÑË÷)
- * @param   data            ÓÃÓÚ´æÈë²éÕÒ½á¹ûµÄÈİÆ÷
- * @return  Ö¸ÎÆÄ£¿é×´Ì¬Âë
+ * @brief   æŒ‡çº¹æŸ¥æ‰¾(é€šè¿‡å­¦å·æœç´¢)
+ * @param   data            ç”¨äºå­˜å…¥æŸ¥æ‰¾ç»“æœçš„å®¹å™¨
+ * @return  æŒ‡çº¹æ¨¡å—çŠ¶æ€ç 
  */
 void FingerPrint_NumSearch(vector<String> &data, String input_id)
 {
-    //²éÕÒÓĞÎŞ¸ÃÑ§ºÅµÄÖ¸ÎÆ
+    //æŸ¥æ‰¾æœ‰æ— è¯¥å­¦å·çš„æŒ‡çº¹
     for (uint16_t el : PLATFORM_FINGER.IndexTable)
     {
         if (finger_data[String(el)][finger_keys.school_id].as<String>() == input_id)
@@ -458,69 +459,69 @@ void FingerPrint_NumSearch(vector<String> &data, String input_id)
 
 /**
  * @author  @Varocol
- * @brief   ´ÓÎÄ¼şÏµÍ³ÖĞ¼ÓÔØÊı¾İ
+ * @brief   ä»æ–‡ä»¶ç³»ç»Ÿä¸­åŠ è½½æ•°æ®
  * @param   None
  * @return  None
  */
 void FingerPrint_LoadList()
 {
-    PLATFORM_SERIAL.print("[ÎÄ¼şÏµÍ³]:´ò¿ªSPIFFSÎÄ¼şÏµÍ³");
+    PLATFORM_SERIAL.print("[æ–‡ä»¶ç³»ç»Ÿ]:æ‰“å¼€SPIFFSæ–‡ä»¶ç³»ç»Ÿ");
     uint8_t time_limit = FINGER_TIMELIMIT;
     while (!SPIFFS.begin() && time_limit)
     {
         PLATFORM_SERIAL.print("...");
         time_limit--;
     }
-    PLATFORM_SERIAL.println();
+    PLATFORM_PRINTLN();
     if (time_limit == 0)
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:SPIFFSÎÄ¼şÏµÍ³ÎŞ·¨´ò¿ª");
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:SPIFFSæ–‡ä»¶ç³»ç»Ÿæ— æ³•æ‰“å¼€");
         return;
     }
     else
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:SPIFFSÎÄ¼şÏµÍ³´ò¿ª³É¹¦");
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:SPIFFSæ–‡ä»¶ç³»ç»Ÿæ‰“å¼€æˆåŠŸ");
     }
-    PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:´ÓÎÄ¼şÏµÍ³¼ÓÔØÊı¾İ");
-    //¼ÓÔØÎÄ¼ş
-    //¼ì²éÎÄ¼ş,²¢¾ö¶¨ÊÇ·ñ´Ó±¸·İÎÄ¼ş»Ö¸´
+    PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:ä»æ–‡ä»¶ç³»ç»ŸåŠ è½½æ•°æ®");
+    //åŠ è½½æ–‡ä»¶
+    //æ£€æŸ¥æ–‡ä»¶,å¹¶å†³å®šæ˜¯å¦ä»å¤‡ä»½æ–‡ä»¶æ¢å¤
     finger_file = SPIFFS.open(FINGER_DATA_PATH, "r", true);
     String data_tmp = finger_file.readString();
     finger_file.close();
     finger_backup_file = SPIFFS.open(FINGER_DATA_BACKUP_PATH, "r", true);
     String backup_tmp = finger_backup_file.readString();
     finger_backup_file.close();
-    //Èç¹ûÔ´ÎÄ¼şËğ»µ(¼ÙÉèÔ´ÎÄ¼şËğ»µÊı¾İÎª¿Õ)
+    //å¦‚æœæºæ–‡ä»¶æŸå(å‡è®¾æºæ–‡ä»¶æŸåæ•°æ®ä¸ºç©º)
     if (data_tmp.isEmpty())
     {
         finger_file = SPIFFS.open(FINGER_DATA_PATH, "w", true);
         finger_file.print(backup_tmp);
         finger_file.close();
-        //¸üĞÂÎª±¸·İÊı¾İ
+        //æ›´æ–°ä¸ºå¤‡ä»½æ•°æ®
         data_tmp = backup_tmp;
     }
-    //Èç¹ûÔ´ÎÄ¼şÃ»ÎÊÌâ¶ø±¸·İÎÄ¼şËğ»µ
+    //å¦‚æœæºæ–‡ä»¶æ²¡é—®é¢˜è€Œå¤‡ä»½æ–‡ä»¶æŸå
     else if (backup_tmp.isEmpty())
     {
         finger_backup_file = SPIFFS.open(FINGER_DATA_BACKUP_PATH, "w", true);
         finger_backup_file.print(data_tmp);
         finger_backup_file.close();
     }
-    //¹Ø±ÕÎÄ¼şÏµÍ³
+    //å…³é—­æ–‡ä»¶ç³»ç»Ÿ
     SPIFFS.end();
     DynamicJsonDocument tmp(2048);
     DeserializationError error = deserializeJson(tmp, data_tmp);
-    // JSON·´ĞòÁĞ»¯»ñÈ¡Êı¾İ
+    // JSONååºåˆ—åŒ–è·å–æ•°æ®
     if (error)
     {
-        PLATFORM_SERIAL.println(error.c_str());
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:Êı¾İ·´ĞòÁĞ»¯Ê§°Ü,Çë¸ñÊ½»¯Êı¾İ");
+        PLATFORM_PRINTLN(error.c_str());
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:æ•°æ®ååºåˆ—åŒ–å¤±è´¥,è¯·æ ¼å¼åŒ–æ•°æ®");
     }
     else
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:Êı¾İ¼ÓÔØ³É¹¦");
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:æ•°æ®åŠ è½½æˆåŠŸ");
     }
-    //ÓëË÷Òı±íºÏ²¢(ÏÈÒª»ñÈ¡Ë÷Òı±í)
+    //ä¸ç´¢å¼•è¡¨åˆå¹¶(å…ˆè¦è·å–ç´¢å¼•è¡¨)
     for (uint16_t el : PLATFORM_FINGER.IndexTable)
     {
         String school_id = tmp[String(el)][finger_keys.school_id].as<String>();
@@ -535,130 +536,130 @@ void FingerPrint_LoadList()
 
 /**
  * @author  @Varocol
- * @brief   Ğ´ÈëÎÄ¼şÏµÍ³
+ * @brief   å†™å…¥æ–‡ä»¶ç³»ç»Ÿ
  * @param   None
  * @return  None
  */
 void FingerPrint_WriteList()
 {
-    PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:Ğ´ÈëÊı¾İ");
-    // JSONĞòÁĞ»¯´æ´¢Êı¾İ
+    PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:å†™å…¥æ•°æ®");
+    // JSONåºåˆ—åŒ–å­˜å‚¨æ•°æ®
     String output;
     serializeJson(finger_data, output);
-    //Ğ´ÈëÔ´ÎÄ¼ş
-    PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:Ğ´ÈëÔ´ÎÄ¼ş");
+    //å†™å…¥æºæ–‡ä»¶
+    PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:å†™å…¥æºæ–‡ä»¶");
     uint8_t time_limit = FINGER_TIMELIMIT;
     while (!SPIFFS.begin() && time_limit)
     {
         PLATFORM_SERIAL.print("...");
         time_limit--;
     }
-    PLATFORM_SERIAL.println();
+    PLATFORM_PRINTLN();
     if (time_limit == 0)
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:SPIFFSÎÄ¼şÏµÍ³ÎŞ·¨´ò¿ª");
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:SPIFFSæ–‡ä»¶ç³»ç»Ÿæ— æ³•æ‰“å¼€");
     }
     else
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:SPIFFSÎÄ¼şÏµÍ³´ò¿ª³É¹¦");
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:SPIFFSæ–‡ä»¶ç³»ç»Ÿæ‰“å¼€æˆåŠŸ");
     }
-    //Ğ´ÈëÎÄ¼ş
+    //å†™å…¥æ–‡ä»¶
     finger_file = SPIFFS.open(FINGER_DATA_PATH, "w", true);
     finger_file.print(output);
-    // PLATFORM_SERIAL.println(output); //´òÓ¡Êä³öÓÃ»§ÁĞ±íµ½´®¿Ú
-    //¹Ø±ÕÎÄ¼ş
+    // PLATFORM_PRINTLN(output); //æ‰“å°è¾“å‡ºç”¨æˆ·åˆ—è¡¨åˆ°ä¸²å£
+    //å…³é—­æ–‡ä»¶
     finger_file.close();
-    //¹Ø±ÕÎÄ¼şÏµÍ³
+    //å…³é—­æ–‡ä»¶ç³»ç»Ÿ
     SPIFFS.end();
-    //Ğ´Èë±¸·İÎÄ¼ş
-    PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:Ğ´Èë±¸·İÎÄ¼ş");
+    //å†™å…¥å¤‡ä»½æ–‡ä»¶
+    PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:å†™å…¥å¤‡ä»½æ–‡ä»¶");
     time_limit = FINGER_TIMELIMIT;
     while (!SPIFFS.begin() && time_limit)
     {
         PLATFORM_SERIAL.print("...");
         time_limit--;
     }
-    PLATFORM_SERIAL.println();
+    PLATFORM_PRINTLN();
     if (time_limit == 0)
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:SPIFFSÎÄ¼şÏµÍ³ÎŞ·¨´ò¿ª");
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:SPIFFSæ–‡ä»¶ç³»ç»Ÿæ— æ³•æ‰“å¼€");
     }
     else
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:SPIFFSÎÄ¼şÏµÍ³´ò¿ª³É¹¦");
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:SPIFFSæ–‡ä»¶ç³»ç»Ÿæ‰“å¼€æˆåŠŸ");
     }
-    //Ğ´ÈëÎÄ¼ş
+    //å†™å…¥æ–‡ä»¶
     finger_backup_file = SPIFFS.open(FINGER_DATA_BACKUP_PATH, "w", true);
     finger_backup_file.print(output);
-    // PLATFORM_SERIAL.println(output); //´òÓ¡Êä³öÓÃ»§ÁĞ±íµ½´®¿Ú
-    //¹Ø±ÕÎÄ¼ş
+    // PLATFORM_PRINTLN(output); //æ‰“å°è¾“å‡ºç”¨æˆ·åˆ—è¡¨åˆ°ä¸²å£
+    //å…³é—­æ–‡ä»¶
     finger_backup_file.close();
-    //¹Ø±ÕÎÄ¼şÏµÍ³
+    //å…³é—­æ–‡ä»¶ç³»ç»Ÿ
     SPIFFS.end();
-    PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:Êı¾İĞ´Èë³É¹¦");
+    PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:æ•°æ®å†™å…¥æˆåŠŸ");
 }
 
 /**
  * @author  @Varocol
- * @brief   »ñÈ¡Ö¸ÎÆË÷Òı±í
+ * @brief   è·å–æŒ‡çº¹ç´¢å¼•è¡¨
  * @param   None
  * @return  None
  */
 void FingerPrint_GetIndexTable()
 {
-    PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:»ñÈ¡Ö¸ÎÆË÷Òı±í");
+    PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:è·å–æŒ‡çº¹ç´¢å¼•è¡¨");
     uint8_t status;
-    //»ñÈ¡Ö¸ÎÆ¿âË÷Òı±í
+    //è·å–æŒ‡çº¹åº“ç´¢å¼•è¡¨
     uint8_t time_limit = FINGER_TIMELIMIT;
     while ((status = PLATFORM_FINGER.readIndexTable()) != FINGERPRINT_OK && time_limit != 0)
     {
-        //×´Ì¬½âÎö
-        PLATFORM_SERIAL.println(FingerPrint_AnalyzeStatus(status));
-        //ÑÓÊ±100ms
+        //çŠ¶æ€è§£æ
+        PLATFORM_PRINTLN(FingerPrint_AnalyzeStatus(status));
+        //å»¶æ—¶100ms
         delay(100);
         time_limit--;
     }
     if (time_limit == 0)
     {
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆ¿âË÷Òı±í¸üĞÂÊ§°Ü");
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹åº“ç´¢å¼•è¡¨æ›´æ–°å¤±è´¥");
         return;
     }
-    PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆ¿âË÷Òı±í¸üĞÂ³É¹¦");
+    PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹åº“ç´¢å¼•è¡¨æ›´æ–°æˆåŠŸ");
 }
 /**
  * @author  @Varocol
- * @brief   ĞŞ¸ÄÖ¸ÎÆĞÅÏ¢
+ * @brief   ä¿®æ”¹æŒ‡çº¹ä¿¡æ¯
  * @param   None
  * @return  None
  */
 void FingerPrint_Alert()
 {
-    // PLATFORM_SERIAL.println("<-------------Ö¸ÎÆĞŞ¸Ä------------>");
-    // PLATFORM_SERIAL.println("¸ù¾İÖ¸ÎÆĞŞ¸ÄÑ§ºÅ");
+    // PLATFORM_PRINTLN("<-------------æŒ‡çº¹ä¿®æ”¹------------>");
+    // PLATFORM_PRINTLN("æ ¹æ®æŒ‡çº¹ä¿®æ”¹å­¦å·");
     // if (FingerPrint_Search() == FINGERPRINT_OK)
     // {
-    //     PLATFORM_SERIAL.println("ÇëÊäÈëÑ§ºÅ:");
+    //     PLATFORM_PRINTLN("è¯·è¾“å…¥å­¦å·:");
     //     String num = ReadOption();
     //     finger_data[String(PLATFORM_FINGER.fingerID)][finger_keys.school_id] = num;
-    //     PLATFORM_SERIAL.println("Ñ§ºÅĞŞ¸Ä³É¹¦");
+    //     PLATFORM_PRINTLN("å­¦å·ä¿®æ”¹æˆåŠŸ");
     //     FingerPrint_WriteList();
     // }
-    // PLATFORM_SERIAL.println("<--------------------------------->");
+    // PLATFORM_PRINTLN("<--------------------------------->");
 }
 
 /**
  * @author  @Varocol
- * @brief   Õ¹Ê¾Ö¸ÎÆË÷Òı±í
+ * @brief   å±•ç¤ºæŒ‡çº¹ç´¢å¼•è¡¨
  * @param   None
  * @return  None
  */
 void FingerPrint_ShowList()
 {
-    PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆË÷Òı±í");
+    PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹ç´¢å¼•è¡¨");
     for (uint16_t el : PLATFORM_FINGER.IndexTable)
     {
-        PLATFORM_SERIAL.printf(
-            "[Ö¸ÎÆÄ£¿é]:[Ö¸ÎÆID:%d|Ñ§ºÅ:%s|ËÑË÷´ÎÊı:%d]\n",
+        PLATFORM_PRINTF(
+            "[æŒ‡çº¹æ¨¡å—]:[æŒ‡çº¹ID:%d|å­¦å·:%s|æœç´¢æ¬¡æ•°:%d]\n",
             el,
             finger_data[String(el)][finger_keys.school_id].as<String>().c_str(),
             finger_data[String(el)][finger_keys.operations_cnt].as<uint32_t>());
@@ -667,28 +668,28 @@ void FingerPrint_ShowList()
 
 /**
  * @author  @Varocol
- * @brief   Çå¿ÕÖ¸ÎÆ¿â
+ * @brief   æ¸…ç©ºæŒ‡çº¹åº“
  * @param   None
  * @return  None
  */
 void FingerPrint_ClearDB()
 {
-    PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Çå¿ÕÖ¸ÎÆ¿â");
+    PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æ¸…ç©ºæŒ‡çº¹åº“");
     uint8_t time_limit = FINGER_TIMELIMIT;
     uint8_t status;
     while ((status = PLATFORM_FINGER.emptyDatabase()) != FINGERPRINT_OK && time_limit)
     {
-        PLATFORM_SERIAL.println(FingerPrint_AnalyzeStatus(status));
+        PLATFORM_PRINTLN(FingerPrint_AnalyzeStatus(status));
         time_limit--;
     }
     if (time_limit == 0)
     {
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆ¿âÉ¾³ıÊ§°Ü");
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹åº“åˆ é™¤å¤±è´¥");
     }
     else
     {
-        PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:Ö¸ÎÆ¿âÉ¾³ı³É¹¦");
-        //É¾³ıÑ§ºÅµÈĞÅÏ¢
+        PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:æŒ‡çº¹åº“åˆ é™¤æˆåŠŸ");
+        //åˆ é™¤å­¦å·ç­‰ä¿¡æ¯
         finger_data.clear();
     }
     FingerPrint_WriteList();
@@ -696,14 +697,14 @@ void FingerPrint_ClearDB()
 
 /**
  * @author  @Varocol
- * @brief   ÎÄ¼şÏµÍ³³õÊ¼»¯
+ * @brief   æ–‡ä»¶ç³»ç»Ÿåˆå§‹åŒ–
  * @param   None
  * @return  None
  */
 void Store_Init()
 {
     Store_Check();
-    PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:´ò¿ªSPIFFS");
+    PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:æ‰“å¼€SPIFFS");
     uint8_t time_limit = FINGER_TIMELIMIT;
     while (!SPIFFS.begin() && time_limit)
     {
@@ -711,54 +712,54 @@ void Store_Init()
         time_limit--;
         delay(1);
     }
-    PLATFORM_SERIAL.println();
+    PLATFORM_PRINTLN();
     if (time_limit == 0)
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:SPIFFSÎŞ·¨´ò¿ª");
-        Store_Format(); //¸ñÊ½»¯ÎÄ¼şÏµÍ³
-        Store_Init();   //µİ¹éÒ»ÏÂ
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:SPIFFSæ— æ³•æ‰“å¼€");
+        Store_Format(); //æ ¼å¼åŒ–æ–‡ä»¶ç³»ç»Ÿ
+        Store_Init();   //é€’å½’ä¸€ä¸‹
     }
     else
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:SPIFFS´ò¿ª³É¹¦");
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:SPIFFSæ‰“å¼€æˆåŠŸ");
     }
     SPIFFS.end();
 }
 
 /**
  * @author  @Varocol
- * @brief   ÎÄ¼şÏµÍ³¸ñÊ½»¯
+ * @brief   æ–‡ä»¶ç³»ç»Ÿæ ¼å¼åŒ–
  * @param   None
  * @return  None
  */
 void Store_Format()
 {
-    PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:ÎÄ¼şÏµÍ³¸ñÊ½»¯");
+    PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:æ–‡ä»¶ç³»ç»Ÿæ ¼å¼åŒ–");
     SPIFFS.format();
 }
 
 /**
  * @author  @Varocol
- * @brief   »Ö¸´ÎÄ¼şÏµÍ³
+ * @brief   æ¢å¤æ–‡ä»¶ç³»ç»Ÿ
  * @param   None
  * @return  None
  */
 void Store_Check()
 {
-    //½øÈëÏµÍ³ºóÖ±½Ó»Ö¸´ÎÄ¼şÏµÍ³
-    PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:ÎÄ¼şÏµÍ³¼ì²é»Ö¸´");
-    SPIFFS.check();
+    //è¿›å…¥ç³»ç»Ÿåç›´æ¥æ¢å¤æ–‡ä»¶ç³»ç»Ÿ
+    PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:æ–‡ä»¶ç³»ç»Ÿæ£€æŸ¥æ¢å¤");
+    // SPIFFS.check();
 }
 
 /**
  * @author  @Varocol
- * @brief   »ñÈ¡Êı¾İJSON°ü
+ * @brief   è·å–æ•°æ®JSONåŒ…
  * @param   None
  * @return  None
  */
 String FingerPrint_GetDataJson()
 {
-    PLATFORM_SERIAL.println("»ñÈ¡Êı¾İJSON°ü");
+    PLATFORM_PRINTLN("è·å–æ•°æ®JSONåŒ…");
     FingerPrint_LoadList();
     String result;
     serializeJson(finger_data, result);
@@ -766,9 +767,9 @@ String FingerPrint_GetDataJson()
 }
 /**
  * @author  @Varocol
- * @brief   Í¨¹ıjson»ñÈ¡ĞòÁĞ
- * @param   id          Ö¸ÎÆidĞòÁĞ
- * @param   school_id   Ñ§ºÅ
+ * @brief   é€šè¿‡jsonè·å–åºåˆ—
+ * @param   id          æŒ‡çº¹idåºåˆ—
+ * @param   school_id   å­¦å·
  * @param   None
  * @return  None
  */
@@ -777,15 +778,15 @@ vector<uint16_t> FingerPrint_Json2List(String list)
     DynamicJsonDocument tmp(2048);
     DeserializationError error = deserializeJson(tmp, list);
     vector<uint16_t> l;
-    // JSON·´ĞòÁĞ»¯»ñÈ¡Êı¾İ
+    // JSONååºåˆ—åŒ–è·å–æ•°æ®
     if (error)
     {
-        PLATFORM_SERIAL.println(error.c_str());
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:Êı¾İ·´ĞòÁĞ»¯Ê§°Ü,Çë¸ñÊ½»¯Êı¾İ");
+        PLATFORM_PRINTLN(error.c_str());
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:æ•°æ®ååºåˆ—åŒ–å¤±è´¥,è¯·æ ¼å¼åŒ–æ•°æ®");
     }
     else
     {
-        PLATFORM_SERIAL.println("[ÎÄ¼şÏµÍ³]:Êı¾İ¼ÓÔØ³É¹¦");
+        PLATFORM_PRINTLN("[æ–‡ä»¶ç³»ç»Ÿ]:æ•°æ®åŠ è½½æˆåŠŸ");
     }
     for (uint16_t i = 0; i < tmp.size(); i++)
     {
@@ -796,55 +797,55 @@ vector<uint16_t> FingerPrint_Json2List(String list)
 
 /**
  * @author  @Varocol
- * @brief   ĞŞ¸ÄÖ¸ÎÆĞÅÏ¢
- * @param   id          Ö¸ÎÆidĞòÁĞ
- * @param   school_id   Ñ§ºÅ
+ * @brief   ä¿®æ”¹æŒ‡çº¹ä¿¡æ¯
+ * @param   id          æŒ‡çº¹idåºåˆ—
+ * @param   school_id   å­¦å·
  * @param   None
  * @return  None
  */
 void FingerPrint_Alert(String id, String school_id)
 {
-    PLATFORM_SERIAL.println("<-------------Ö¸ÎÆĞŞ¸Ä------------>");
+    PLATFORM_PRINTLN("<-------------æŒ‡çº¹ä¿®æ”¹------------>");
     vector<uint16_t> id_list = FingerPrint_Json2List(id);
     for (uint16_t el : id_list)
     {
-        PLATFORM_SERIAL.printf("id=%d,school_id=%s\n", id, school_id.c_str());
+        PLATFORM_PRINTF("id=%d,school_id=%s\n", id, school_id.c_str());
         finger_data[el][finger_keys.school_id] = school_id;
     }
-    //Ğ´ÈëÊı¾İ
+    //å†™å…¥æ•°æ®
     FingerPrint_WriteList();
-    PLATFORM_SERIAL.println("<--------------------------------->");
+    PLATFORM_PRINTLN("<--------------------------------->");
 }
 
 /**
  * @author  @Varocol
- * @brief   ĞŞ¸ÄÖ¸ÎÆĞÅÏ¢
- * @param   id          Ö¸ÎÆidĞòÁĞ
+ * @brief   ä¿®æ”¹æŒ‡çº¹ä¿¡æ¯
+ * @param   id          æŒ‡çº¹idåºåˆ—
  * @param   None
  * @return  None
  */
 void FingerPrint_Delete(String id)
 {
-    PLATFORM_SERIAL.println("<-------------Ö¸ÎÆÉ¾³ı------------>");
+    PLATFORM_PRINTLN("<-------------æŒ‡çº¹åˆ é™¤------------>");
     vector<uint16_t> id_list = FingerPrint_Json2List(id);
     uint8_t status;
     for (uint16_t el : id_list)
     {
         if ((status = PLATFORM_FINGER.deleteModel(el)) != FINGERPRINT_OK)
         {
-            PLATFORM_SERIAL.println(FingerPrint_AnalyzeStatus(status));
+            PLATFORM_PRINTLN(FingerPrint_AnalyzeStatus(status));
         }
         else
         {
-            //É¾³ıÊı¾İ
+            //åˆ é™¤æ•°æ®
             finger_data.remove(el);
-            PLATFORM_SERIAL.println("[Ö¸ÎÆÄ£¿é]:É¾³ıÖ¸ÎÆID" + String(el) + "³É¹¦");
-            // show_tips("É¾³ı³É¹¦", "Ñ§ºÅ: " + id + "\\rÖ¸ÎÆID: " + id, "2");
+            PLATFORM_PRINTLN("[æŒ‡çº¹æ¨¡å—]:åˆ é™¤æŒ‡çº¹ID" + String(el) + "æˆåŠŸ");
+            // show_tips(delete_success_msg, school_id_msg_2 + id + finger_id_msg + " " + id, "2");
         }
     }
-    //¸üĞÂÖ¸ÎÆË÷Òı±í
+    //æ›´æ–°æŒ‡çº¹ç´¢å¼•è¡¨
     FingerPrint_GetIndexTable();
-    //¸üĞÂ´æ´¢ÎÄ¼şµÄË÷Òı±í
+    //æ›´æ–°å­˜å‚¨æ–‡ä»¶çš„ç´¢å¼•è¡¨
     FingerPrint_WriteList();
-    PLATFORM_SERIAL.println("<--------------------------------->");
+    PLATFORM_PRINTLN("<--------------------------------->");
 }

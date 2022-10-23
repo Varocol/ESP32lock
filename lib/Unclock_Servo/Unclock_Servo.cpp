@@ -1,27 +1,27 @@
 #include "Unclock_Servo.h"
 
-#define open_angle 80             //½âËø½Ç¶È
-#define close_angle 0             //Õı³£½Ç¶È
-#define servo_pin 21              //ÉèÖÃ¶æ»úÒı½Å21
-#define servo_freq 50             //¹Ì¶¨50Hz
-#define servo_max_pulse_with 2500 //¶æ»ú×î´óÂö¿í(us)
-#define servo_min_pulse_with 500  //¶æ»ú×îĞ¡Âö¿í(us)
+#define open_angle 80             //è§£é”è§’åº¦
+#define close_angle 0             //æ­£å¸¸è§’åº¦
+#define servo_pin 21              //è®¾ç½®èˆµæœºå¼•è„š21
+#define servo_freq 50             //å›ºå®š50Hz
+#define servo_max_pulse_with 2500 //èˆµæœºæœ€å¤§è„‰å®½(us)
+#define servo_min_pulse_with 500  //èˆµæœºæœ€å°è„‰å®½(us)
 Servo unclock_servo;
 
 void unclock_servo_setup()
 {
     ESP32PWM::allocateTimer(1);
     unclock_servo.attach(servo_pin, 1000, 2000);
-    unclock_servo.setPeriodHertz(50); // ¿ªÆôÆµÂÊÎª50Hz
+    unclock_servo.setPeriodHertz(50); // å¼€å¯é¢‘ç‡ä¸º50Hz
     unclock_servo.write(close_angle);
 }
 
 void open_Task(void *parameter)
 {
-    Serial.println("[Ó²¼ş¿ØÖÆ]: ½âËø");
+    PLATFORM_PRINTLN("[ç¡¬ä»¶æ§åˆ¶]: è§£é”");
     unclock_servo.write(open_angle);
     delay(1000);
-    Serial.println("[Ó²¼ş¿ØÖÆ]: ÉÏËø");
+    PLATFORM_PRINTLN("[ç¡¬ä»¶æ§åˆ¶]: ä¸Šé”");
     unclock_servo.write(close_angle);
     delay(1000);
     vTaskDelete(NULL);

@@ -1,24 +1,24 @@
 #include "LCD_keypad.h"
 
-extern int page_state; // ÆÁÄ»µ±Ç°Ò³ÃæID±ê¼Ç
+extern int page_state; // å±å¹•å½“å‰é¡µé¢IDæ ‡è®°
 
-const byte ROWS = 4; // Ã¿ĞĞ°´Å¥ÊıÁ¿
-const byte COLS = 4; // Ã¿ÁĞ°´Å¥ÊıÁ¿
-/* °´Å¥¶ÔÓ¦µÄ±êÇ© */
+const byte ROWS = 4; // æ¯è¡ŒæŒ‰é’®æ•°é‡
+const byte COLS = 4; // æ¯åˆ—æŒ‰é’®æ•°é‡
+/* æŒ‰é’®å¯¹åº”çš„æ ‡ç­¾ */
 char keys[ROWS][COLS] = {
     {'1', '2', '3', 'E'},
     {'4', '5', '6', 'M'},
     {'7', '8', '9', 'U'},
     {'P', '0', 'O', 'D'}};
-/* °´Å¥¶ÔÓ¦µÄÒı½Å */
-byte colPins[COLS] = {12, 27, 25, 32}; // Á¬½ÓĞĞÒı½Å
-byte rowPins[ROWS] = {33, 26, 14, 13}; // Á¬½ÓÁĞÒı³öÏß
+/* æŒ‰é’®å¯¹åº”çš„å¼•è„š */
+byte colPins[COLS] = {12, 27, 25, 32}; // è¿æ¥è¡Œå¼•è„š
+byte rowPins[ROWS] = {33, 26, 14, 13}; // è¿æ¥åˆ—å¼•å‡ºçº¿
 
-// Ò³ÃæÊıÁ¿£¬Ìí¼ÓÒ³ÃæÊ±ĞèÒªÔÚ´Ë´¦Ìí¼Ó
+// é¡µé¢æ•°é‡ï¼Œæ·»åŠ é¡µé¢æ—¶éœ€è¦åœ¨æ­¤å¤„æ·»åŠ 
 const int page_number = 15;
-// °´¼üÊıÁ¿ (4*4¼üÅÌ²¼¾Ö)
+// æŒ‰é”®æ•°é‡ (4*4é”®ç›˜å¸ƒå±€)
 const int key_number = 16;
-// Ò³ÃæIDÓë¼üÅÌIDÓ³Éä±í£¬Ìí¼ÓÒ³ÃæÊ±ĞèÒªÔÚ´Ë´¦Ìí¼Ó
+// é¡µé¢IDä¸é”®ç›˜IDæ˜ å°„è¡¨ï¼Œæ·»åŠ é¡µé¢æ—¶éœ€è¦åœ¨æ­¤å¤„æ·»åŠ 
 String key_map[page_number][key_number] = {
     {"0", "0", "0", "0",
      "0", "0", "0", "0",
@@ -88,18 +88,18 @@ void keypad_while()
 {
     if (kpd.getKeys())
     {
-        for (int i = 0; i < LIST_MAX; i++) // É¨ÃèÕû¸ö°´¼üÁĞ±í
+        for (int i = 0; i < LIST_MAX; i++) // æ‰«ææ•´ä¸ªæŒ‰é”®åˆ—è¡¨
         {
-            if (kpd.key[i].stateChanged) // ½ö²éÕÒÒÑ¸ü¸Ä×´Ì¬µÄ°´¼ü
+            if (kpd.key[i].stateChanged) // ä»…æŸ¥æ‰¾å·²æ›´æ”¹çŠ¶æ€çš„æŒ‰é”®
             {
                 if (kpd.key[i].kstate == PRESSED)
                 {
 
-                    // µ±°´Å¥°´ÏÂµÄÊ±ºò»áÖ´ĞĞÏÂÃæµÄ´úÂë
+                    // å½“æŒ‰é’®æŒ‰ä¸‹çš„æ—¶å€™ä¼šæ‰§è¡Œä¸‹é¢çš„ä»£ç 
                     if (page_state < page_number && page_state >= 0 && kpd.key[i].kcode < key_number && kpd.key[i].kcode >= 0)
                     {
                         String click_id = key_map[page_state][kpd.key[i].kcode];
-                        LCD_debug("Ä£Äâ°´ÏÂID:" + click_id);
+                        LCD_debug("æ¨¡æ‹ŸæŒ‰ä¸‹ID:" + click_id);
                         LCD_print("click " + click_id + ",1");
                         delay(100);
                         LCD_print("click " + click_id + ",0");

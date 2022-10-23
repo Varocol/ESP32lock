@@ -7,24 +7,35 @@
 #include <SoftwareSerial.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
+#include <ESPAsyncWebServer.h>
 using namespace std;
 #define PLATFORM_FINGER Finger
 #define PLATFORM_SERIAL Serial
+#define SOCKET_PRINTF(...) websocket.printfAll(__VA_ARGS__)
+#define SOCKET_PRINTLN(fmt,...) websocket.printfAll(String(fmt).c_str(),##__VA_ARGS__)
+#define SERIAL_PRINTF(...) PLATFORM_SERIAL.printf(__VA_ARGS__)
+#define SERIAL_PRINTLN(...) PLATFORM_SERIAL.println(__VA_ARGS__)
+#define PLATFORM_PRINTF(...)\
+        SOCKET_PRINTF(__VA_ARGS__);\
+        SERIAL_PRINTF(__VA_ARGS__)
+    #define PLATFORM_PRINTLN(...)\
+        SOCKET_PRINTLN(__VA_ARGS__);\
+        SERIAL_PRINTLN(__VA_ARGS__)
 
 typedef struct
 {
-    uint8_t Tx;                // TxÒı½Å
-    uint8_t Rx;                // RxÒı½Å
-    uint32_t Password;         //Ö¸ÎÆÄ£¿éÃÜÂë
-    uint32_t SoftwareBaudrate; //Èí´®¿Ú²¨ÌØÂÊ
-    uint8_t Baudrate;          //Ö¸ÎÆÄ£¿é²¨ÌØÂÊ
-    uint16_t PacketSize;       //Ö¸ÎÆÄ£¿é°ü´óĞ¡
-    uint8_t SecurityLevel;     //Ö¸ÎÆÄ£¿é°²È«µÈ¼¶
+    uint8_t Tx;                // Txå¼•è„š
+    uint8_t Rx;                // Rxå¼•è„š
+    uint32_t Password;         //æŒ‡çº¹æ¨¡å—å¯†ç 
+    uint32_t SoftwareBaudrate; //è½¯ä¸²å£æ³¢ç‰¹ç‡
+    uint8_t Baudrate;          //æŒ‡çº¹æ¨¡å—æ³¢ç‰¹ç‡
+    uint16_t PacketSize;       //æŒ‡çº¹æ¨¡å—åŒ…å¤§å°
+    uint8_t SecurityLevel;     //æŒ‡çº¹æ¨¡å—å®‰å…¨ç­‰çº§
 } FingerPrint_Param;
 
 typedef struct
 {
-    uint32_t Baudrate; //´®¿Ú²¨ÌØÂÊ
+    uint32_t Baudrate; //ä¸²å£æ³¢ç‰¹ç‡
 } Serial_Param;
 
 extern DynamicJsonDocument finger_data;
@@ -34,4 +45,5 @@ extern AS608_Fingerprint Finger;
 extern Serial_Param serial_param;
 extern File finger_file;
 extern File finger_backup_file;
+extern AsyncWebSocket websocket;
 #endif /*__VARIABLES_H*/

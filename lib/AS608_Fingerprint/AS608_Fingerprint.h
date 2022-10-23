@@ -5,14 +5,14 @@
 #include <SoftwareSerial.h>
 using namespace std;
 
-//AS608²Ù×÷Ö¸Áî
+//AS608æ“ä½œæŒ‡ä»¤
 #define FINGERPRINT_WRITENOTEPAD 0x18
 #define FINGERPRINT_READNOTEPAD 0x19
 #define FINGERPRINT_AUTOENROLL 0x10
 #define FINGERPRINT_AUTOIDENTIFY 0x11
 #define FINGERPRINT_READINDEXTABLE 0x1F
 
-//AS60×´Ì¬Âë
+//AS60çŠ¶æ€ç 
 #define FINGERPRINT_UNKOWNERR 0x19
 #define FINGERPRINT_REGCONTENTERR 0x1B
 #define FINGERPRINT_PAGERANGEERR 0x1C
@@ -20,7 +20,7 @@ using namespace std;
 #define FINGERPRINT_AUTOENROLLERR 0x1E
 #define FINGERPRINT_DBFULL 0x1F
 
-//ĞÂÔö×Ô¶¯Â¼Èë¡¢×Ô¶¯ÑéÖ¤¡¢¼ÇÊÂ±¾ÒÔ¼°»ñÈ¡Ë÷Òı±í¹¦ÄÜ
+//æ–°å¢è‡ªåŠ¨å½•å…¥ã€è‡ªåŠ¨éªŒè¯ã€è®°äº‹æœ¬ä»¥åŠè·å–ç´¢å¼•è¡¨åŠŸèƒ½
 class AS608_Fingerprint : public Adafruit_Fingerprint
 {
 private:

@@ -3,7 +3,7 @@
 #include "Serial_LCD.h"
 #include "network_config.h"
 
-//创建句柄
+//鍒涘缓鍙ユ焺
 TaskHandle_t xHandle_keypad_Task = NULL;
 TaskHandle_t xHandle_LCD_Task = NULL;
 TaskHandle_t xHandle_Network_Task = NULL;
@@ -11,16 +11,16 @@ TaskHandle_t xHandle_Network_Task = NULL;
 void Task_Die()
 {
     if (xHandle_keypad_Task != NULL)
-        vTaskDelete(xHandle_keypad_Task); // 删除键盘线程
+        vTaskDelete(xHandle_keypad_Task); // 鍒犻櫎閿洏绾跨▼
     if (xHandle_LCD_Task != NULL)
-        vTaskDelete(xHandle_LCD_Task); // 删除LCD线程
+        vTaskDelete(xHandle_LCD_Task); // 鍒犻櫎LCD绾跨▼
     // if (xHandle_Network_Task != NULL)
-    //     vTaskDelete(xHandle_Network_Task); // 删除网络线程
+    //     vTaskDelete(xHandle_Network_Task); // 鍒犻櫎缃戠粶绾跨▼
 }
 
 void keypad_Task(void *parameter)
 {
-    Serial.println("[线程管理]:启动键盘扫描线程");
+    PLATFORM_PRINTLN("[绾跨▼绠＄悊]:鍚姩閿洏鎵弿绾跨▼");
     while (1)
     {
         keypad_while();
@@ -30,7 +30,7 @@ void keypad_Task(void *parameter)
 
 void LCD_Task(void *parameter)
 {
-    Serial.println("[线程管理]:启动屏幕通讯线程");
+    PLATFORM_PRINTLN("[绾跨▼绠＄悊]:鍚姩灞忓箷閫氳绾跨▼");
     while (1)
     {
         LCD_while();
@@ -40,7 +40,7 @@ void LCD_Task(void *parameter)
 
 void Network_Task(void *parameter)
 {
-    Serial.println("[线程管理]:启动网络线程");
+    PLATFORM_PRINTLN("[绾跨▼绠＄悊]:鍚姩缃戠粶绾跨▼");
     while (1)
     {
         Network_while();

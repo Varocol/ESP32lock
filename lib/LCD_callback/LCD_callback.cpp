@@ -4,170 +4,171 @@
 #include <Unclock_Servo.h>
 #include <FINGERPrint.h>
 #include <Variables.h>
+#include <GBK_SOURCE.h>
 
 /**
- * Ìí¼ÓÓÃ»§
- * @param school_id ÆÁÄ»´«»ØÀ´µÄÑ§ºÅ
- * @return ¿Õ
+ * æ·»åŠ ç”¨æˆ·
+ * @param school_id å±å¹•ä¼ å›æ¥çš„å­¦å·
+ * @return ç©º
  */
 void add_user(String school_id)
 {
-  LCD_debug("Ìí¼ÓÓÃ»§: " + school_id);
+  LCD_debug("æ·»åŠ ç”¨æˆ·: " + school_id);
   if (school_id.length() < 1 || school_id.length() > 20)
   {
-    show_tips("ÌáÊ¾", "Ñ§ºÅ³¤¶ÈÓ¦Îª1-20Î»\\rÇëÖØĞÂÉèÖÃ", "6");
+    show_tips(tip_msg, school_id_len_error_msg, "6");
     return;
   }
-  // µ÷ÓÃÅ·ÑôµÄÖ¸ÎÆÂ¼Èë½Ó¿Ú
+  // è°ƒç”¨æ¬§é˜³çš„æŒ‡çº¹å½•å…¥æ¥å£
   FingerPrint_Enroll(school_id);
 }
 
 /**
- * É¾³ıÓÃ»§
- * @param school_id ÆÁÄ»´«»ØÀ´µÄÑ§ºÅ
- * @return ¿Õ
+ * åˆ é™¤ç”¨æˆ·
+ * @param school_id å±å¹•ä¼ å›æ¥çš„å­¦å·
+ * @return ç©º
  */
 void delete_user(String school_id)
 {
-  LCD_debug("É¾³ıÓÃ»§: " + school_id);
+  LCD_debug("åˆ é™¤ç”¨æˆ·: " + school_id);
   if (school_id.length() < 1 || school_id.length() > 20)
   {
-    show_tips("ÌáÊ¾", "Ñ§ºÅ³¤¶ÈÓ¦Îª1-20Î»\\rÇëÖØĞÂÉèÖÃ", "6");
+    show_tips(tip_msg, school_id_len_error_msg, "6");
     return;
   }
-  // µ÷ÓÃÅ·ÑôµÄÖ¸ÎÆÉ¾³ı½Ó¿Ú
+  // è°ƒç”¨æ¬§é˜³çš„æŒ‡çº¹åˆ é™¤æ¥å£
   FingerPrint_Delete(school_id);
 }
 
 /**
- * ÉèÖÃ¹ÜÀíÔ±
- * @param school_id ÆÁÄ»´«»ØÀ´µÄÑ§ºÅ
- * @return ¿Õ
+ * è®¾ç½®ç®¡ç†å‘˜
+ * @param school_id å±å¹•ä¼ å›æ¥çš„å­¦å·
+ * @return ç©º
  */
 void set_admin(String school_id)
 {
-  LCD_debug("ÉèÖÃ¹ÜÀíÔ±: " + school_id);
+  LCD_debug("è®¾ç½®ç®¡ç†å‘˜: " + school_id);
   if (school_id.length() < 1 || school_id.length() > 20)
   {
-    show_tips("ÌáÊ¾", "Ñ§ºÅ³¤¶ÈÓ¦Îª1-20Î»\\rÇëÖØĞÂÉèÖÃ", "6");
+    show_tips(tip_msg, school_id_len_error_msg, "6");
     return;
   }
-  show_tips("ÌáÊ¾", "¸Ã¹¦ÄÜÎŞĞ§\\rÇëÊ¹ÓÃÃÜÂë½øÈë²Ëµ¥", "6");
+  show_tips(tip_msg, function_invalid_msg, "6");
 }
 
 /**
- * ĞŞ¸ÄÓÃ»§ÃÜÂë
- * @param password ÆÁÄ»´«»ØÀ´µÄ½âËøÃÜÂë
- * @return ¿Õ
+ * ä¿®æ”¹ç”¨æˆ·å¯†ç 
+ * @param password å±å¹•ä¼ å›æ¥çš„è§£é”å¯†ç 
+ * @return ç©º
  */
 void change_user_password(String password)
 {
-  LCD_debug("ĞŞ¸Ä½âËøÃÜÂë: " + password);
+  LCD_debug("ä¿®æ”¹è§£é”å¯†ç : " + password);
   if (password.length() != 6)
   {
-    show_tips("ÌáÊ¾", "ÃÜÂë³¤¶ÈÓ¦Îª6Î»\\rÇëÖØĞÂÉèÖÃ", "6");
+    show_tips(tip_msg, password_len_error_msg, "6");
     return;
   }
-  Preferences prefs;                                           // ÉùÃ÷Preferences¶ÔÏó
-  prefs.begin("config");                                       // ´ò¿ªÃüÃû¿Õ¼äconfig
-  String real_admin_password = prefs.getString("admin_k", ""); // ¶ÁÈ¡¹ÜÀíÔ±ÃÜÂë
+  Preferences prefs;                                           // å£°æ˜Preferenceså¯¹è±¡
+  prefs.begin("config");                                       // æ‰“å¼€å‘½åç©ºé—´config
+  String real_admin_password = prefs.getString("admin_k", ""); // è¯»å–ç®¡ç†å‘˜å¯†ç 
   if (password == real_admin_password)
   {
-    show_tips("ÌáÊ¾", "ÓÃ»§ÃÜÂë²»ÄÜºÍ¹ÜÀíÔ±ÃÜÂëÏàÍ¬\\rÇëÖØĞÂÉèÖÃ", "6");
+    show_tips(tip_msg, password_invalid_msg_1, "6");
     return;
   }
-  prefs.putString("user_k", password); // Ğ´Èë½âËøÃÜÂë
-  prefs.end();                         // ¹Ø±ÕÃüÃû¿Õ¼ä
-  show_tips("ÌáÊ¾", "ÃÜÂëĞŞ¸Ä³É¹¦", "6");
+  prefs.putString("user_k", password); // å†™å…¥è§£é”å¯†ç 
+  prefs.end();                         // å…³é—­å‘½åç©ºé—´
+  show_tips(tip_msg, alert_pass_success_msg, "6");
 }
 
 /**
- * ĞŞ¸Ä¹ÜÀíÃÜÂë
- * @param password ÆÁÄ»´«»ØÀ´µÄ½âËøÃÜÂë
- * @return ¿Õ
+ * ä¿®æ”¹ç®¡ç†å¯†ç 
+ * @param password å±å¹•ä¼ å›æ¥çš„è§£é”å¯†ç 
+ * @return ç©º
  */
 void change_admin_password(String password)
 {
-  LCD_debug("ĞŞ¸Ä¹ÜÀíÃÜÂë: " + password);
+  LCD_debug("ä¿®æ”¹ç®¡ç†å¯†ç : " + password);
   if (password.length() != 6)
   {
-    show_tips("ÌáÊ¾", "ÃÜÂë³¤¶ÈÓ¦Îª6Î»\\rÇëÖØĞÂÉèÖÃ", "6");
+    show_tips(tip_msg, password_len_error_msg, "6");
     return;
   }
-  Preferences prefs;                                         // ÉùÃ÷Preferences¶ÔÏó
-  prefs.begin("config");                                     // ´ò¿ªÃüÃû¿Õ¼äconfig
-  String real_user_password = prefs.getString("user_k", ""); // ¶ÁÈ¡ÓÃ»§ÃÜÂë
+  Preferences prefs;                                         // å£°æ˜Preferenceså¯¹è±¡
+  prefs.begin("config");                                     // æ‰“å¼€å‘½åç©ºé—´config
+  String real_user_password = prefs.getString("user_k", ""); // è¯»å–ç”¨æˆ·å¯†ç 
   if (password == real_user_password)
   {
-    show_tips("ÌáÊ¾", "¹ÜÀíÔ±ÃÜÂë²»ÄÜºÍÓÃ»§ÃÜÂëÏàÍ¬\\rÇëÖØĞÂÉèÖÃ", "6");
+    show_tips(tip_msg, password_invalid_msg_2, "6");
     return;
   }
-  prefs.putString("admin_k", password); // Ğ´Èë½âËøÃÜÂë
-  prefs.end();                          // ¹Ø±ÕÃüÃû¿Õ¼ä
-  show_tips("ÌáÊ¾", "ÃÜÂëĞŞ¸Ä³É¹¦", "6");
+  prefs.putString("admin_k", password); // å†™å…¥è§£é”å¯†ç 
+  prefs.end();                          // å…³é—­å‘½åç©ºé—´
+  show_tips(tip_msg, alert_pass_success_msg, "6");
 }
 
 /**
- * ÃÜÂë½âËø»Øµ÷
- * @param password ½âËøÃÜÂë
- * @return ¿Õ
+ * å¯†ç è§£é”å›è°ƒ
+ * @param password è§£é”å¯†ç 
+ * @return ç©º
  */
 void unlock(String password)
 {
-  LCD_debug("ÃÜÂë½âËø: " + password);
-  //½âËøÂß¼­
-  Preferences prefs;                                           // ÉùÃ÷Preferences¶ÔÏó
-  prefs.begin("config");                                       // ´ò¿ªÃüÃû¿Õ¼äconfig
-  String real_user_password = prefs.getString("user_k", "");   // ¶ÁÈ¡ÓÃ»§ÃÜÂë
-  String real_admin_password = prefs.getString("admin_k", ""); // ¶ÁÈ¡¹ÜÀíÔ±ÃÜÂë
+  LCD_debug("å¯†ç è§£é”: " + password);
+  //è§£é”é€»è¾‘
+  Preferences prefs;                                           // å£°æ˜Preferenceså¯¹è±¡
+  prefs.begin("config");                                       // æ‰“å¼€å‘½åç©ºé—´config
+  String real_user_password = prefs.getString("user_k", "");   // è¯»å–ç”¨æˆ·å¯†ç 
+  String real_admin_password = prefs.getString("admin_k", ""); // è¯»å–ç®¡ç†å‘˜å¯†ç 
   prefs.end();
 
-  //ÅĞ¶ÏÊÇ·ñÎª¿Õ
+  //åˆ¤æ–­æ˜¯å¦ä¸ºç©º
   if (real_user_password == "" || real_admin_password == "")
   {
-    LCD_debug("ÃÜÂëÎª¿Õ");
-    show_tips("ÎŞ·¨Ê¹ÓÃÃÜÂë½âËø", "ÓĞÃÜÂëÎ´ÉèÖÃ\\rÇëÏÈÉèÖÃÃÜÂë", "0");
+    LCD_debug("å¯†ç ä¸ºç©º");
+    show_tips(pass_error_msg, pass_unset_msg, "0");
     return;
   }
-  //ÅĞ¶ÏÊÇ·ñÎª¹ÜÀíÔ±ÃÜÂë
+  //åˆ¤æ–­æ˜¯å¦ä¸ºç®¡ç†å‘˜å¯†ç 
   if (password == real_admin_password)
   {
-    LCD_debug("¹ÜÀíÔ±ÃÜÂë½âËø");
+    LCD_debug("ç®¡ç†å‘˜å¯†ç è§£é”");
     LCD_print("page 1");
     unclock_servo_open();
     return;
   }
-  //ÅĞ¶ÏÊÇ·ñÎªÓÃ»§ÃÜÂë
+  //åˆ¤æ–­æ˜¯å¦ä¸ºç”¨æˆ·å¯†ç 
   if (password == real_user_password)
   {
-    LCD_debug("ÓÃ»§ÃÜÂë½âËø");
-    show_tips("½âËø³É¹¦", "ÃÜÂë½âËø", "0");
+    LCD_debug("ç”¨æˆ·å¯†ç è§£é”");
+    show_tips(unlock_success_msg, pass_unlock_msg, "0");
     unclock_servo_open();
     return;
   }
-  show_tips("ÌáÊ¾", "ÎŞĞ§ÃÜÂë", "0");
+  show_tips(tip_msg, invalid_pass_msg, "0");
 }
 
 /**
- * »Ö¸´³ö³§»Øµ÷
- * @param ¿Õ
- * @return ¿Õ
+ * æ¢å¤å‡ºå‚å›è°ƒ
+ * @param ç©º
+ * @return ç©º
  */
 void Return_to_factory()
 {
-  LCD_print("t0.txt=\"ÇëÉÔºó\"");
-  Preferences prefs;     // ÉùÃ÷Preferences¶ÔÏó
-  prefs.begin("config"); // ´ò¿ªÃüÃû¿Õ¼äconfig
-  prefs.clear();         // Çå³ıÊı¾İ
-  FingerPrint_ClearDB(); //Çå¿ÕÖ¸ÎÆ¿â
-  Store_Format();        //¸ñÊ½»¯´æ´¢Æ÷
+  LCD_print("t0.txt=\"" + wait_msg + "\"");
+  Preferences prefs;     // å£°æ˜Preferenceså¯¹è±¡
+  prefs.begin("config"); // æ‰“å¼€å‘½åç©ºé—´config
+  prefs.clear();         // æ¸…é™¤æ•°æ®
+  FingerPrint_ClearDB(); //æ¸…ç©ºæŒ‡çº¹åº“
+  Store_Format();        //æ ¼å¼åŒ–å­˜å‚¨å™¨
   ESP.restart();
 }
 
 /**
- * ÏÔÊ¾Ö¸ÎÆÁĞ±í»Øµ÷
- * @param ¿Õ
- * @return ¿Õ
+ * æ˜¾ç¤ºæŒ‡çº¹åˆ—è¡¨å›è°ƒ
+ * @param ç©º
+ * @return ç©º
  */
 int page_position = 0;
 void Show_finger_list()
@@ -175,7 +176,7 @@ void Show_finger_list()
   uint16_t cost = PLATFORM_FINGER.IndexTable.size();
   if (cost == 0)
   {
-    show_tips("ÌáÊ¾", "Ö¸ÎÆ¿âÎª¿Õ", "0");
+    show_tips(tip_msg, fingerprint_empty_msg, "0");
     return;
   }
   LCD_print("t10.txt=\"" + String((page_position / 5) + 1) + "\"");
@@ -188,7 +189,7 @@ void Show_finger_list()
       LCD_print("va" + String(m) + ".val=-1");
       continue;
     }
-    String temp = "ID:" + String(tp) + " Ñ§ºÅ:" + finger_data[String(tp)][finger_keys.school_id].as<String>() + " ´ÎÊı:" + finger_data[String(tp)][finger_keys.operations_cnt].as<String>();
+    String temp = "ID:" + String(tp) + school_id_msg_1 + finger_data[String(tp)][finger_keys.school_id].as<String>() + " æ¬¡æ•°:" + finger_data[String(tp)][finger_keys.operations_cnt].as<String>();
     LCD_print("t" + String(m) + ".txt=\"" + temp + "\"");
     LCD_print("va" + String(m) + ".val=" + String(tp));
   }

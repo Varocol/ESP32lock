@@ -22,9 +22,9 @@
 
 /**
  * @author  @Varocol
- * @brief   Èí´®¿ÚÇı¶¯Ö¸ÎÆÄ£¿é¹¹Ôì·½·¨
- * @param   ss              Èí´®¿ÚÖ¸Õë
- * @param   password        ¿ÚÁî
+ * @brief   è½¯ä¸²å£é©±åŠ¨æŒ‡çº¹æ¨¡å—æ„é€ æ–¹æ³•
+ * @param   ss              è½¯ä¸²å£æŒ‡é’ˆ
+ * @param   password        å£ä»¤
  * @return  None
  */
 #if defined(__AVR__) || defined(ESP32) || defined(ESP8266) || defined(FREEDOM_E300_HIFIVE1)
@@ -34,9 +34,9 @@ AS608_Fingerprint::AS608_Fingerprint(SoftwareSerial *ss, uint32_t password) : Ad
 #endif
 /**
  * @author  @Varocol
- * @brief   Ó²´®¿ÚÇı¶¯Ö¸ÎÆÄ£¿é¹¹Ôì·½·¨
- * @param   hs              Ó²´®¿ÚÖ¸Õë
- * @param   password        ¿ÚÁî
+ * @brief   ç¡¬ä¸²å£é©±åŠ¨æŒ‡çº¹æ¨¡å—æ„é€ æ–¹æ³•
+ * @param   hs              ç¡¬ä¸²å£æŒ‡é’ˆ
+ * @param   password        å£ä»¤
  * @return  None
  */
 AS608_Fingerprint::AS608_Fingerprint(HardwareSerial *hs, uint32_t password) : Adafruit_Fingerprint(hs, password)
@@ -44,9 +44,9 @@ AS608_Fingerprint::AS608_Fingerprint(HardwareSerial *hs, uint32_t password) : Ad
 }
 /**
  * @author  @Varocol
- * @brief   ´®¿ÚÁ÷Çı¶¯Ö¸ÎÆÄ£¿é¹¹Ôì·½·¨
- * @param   serial          ´®¿ÚÁ÷Ö¸Õë
- * @param   password        ¿ÚÁî
+ * @brief   ä¸²å£æµé©±åŠ¨æŒ‡çº¹æ¨¡å—æ„é€ æ–¹æ³•
+ * @param   serial          ä¸²å£æµæŒ‡é’ˆ
+ * @param   password        å£ä»¤
  * @return  None
  */
 AS608_Fingerprint::AS608_Fingerprint(Stream *serial, uint32_t password) : Adafruit_Fingerprint(serial, password)
@@ -54,9 +54,9 @@ AS608_Fingerprint::AS608_Fingerprint(Stream *serial, uint32_t password) : Adafru
 }
 /**
  * @author  @Varocol
- * @brief   ×Ô¶¯×¢²áÄ£°å,²¢½«ID·ÅÈëautoEnrollindex
+ * @brief   è‡ªåŠ¨æ³¨å†Œæ¨¡æ¿,å¹¶å°†IDæ”¾å…¥autoEnrollindex
  * @param   None
- * @return  Ö¸ÎÆÄ£¿é×´Ì¬Âë
+ * @return  æŒ‡çº¹æ¨¡å—çŠ¶æ€ç 
  */
 uint8_t AS608_Fingerprint::autoEnroll()
 {
@@ -69,9 +69,9 @@ uint8_t AS608_Fingerprint::autoEnroll()
 }
 /**
  * @author  @Varocol
- * @brief   ×Ô¶¯²É¼¯Ö¸ÎÆ,²¢¸üĞÂÖ¸ÎÆ,Ê¹µÃÖ¸ÎÆ¸üÇåÎú
+ * @brief   è‡ªåŠ¨é‡‡é›†æŒ‡çº¹,å¹¶æ›´æ–°æŒ‡çº¹,ä½¿å¾—æŒ‡çº¹æ›´æ¸…æ™°
  * @param   None
- * @return  Ö¸ÎÆÄ£¿é×´Ì¬Âë
+ * @return  æŒ‡çº¹æ¨¡å—çŠ¶æ€ç 
  */
 uint8_t AS608_Fingerprint::autoIdentify()
 {
@@ -91,15 +91,15 @@ uint8_t AS608_Fingerprint::autoIdentify()
 }
 /**
  * @author  @Varocol
- * @brief   »ñÈ¡Ë÷Òı±í
+ * @brief   è·å–ç´¢å¼•è¡¨
  * @param   None
- * @return  Ö¸ÎÆÄ£¿é×´Ì¬Âë
+ * @return  æŒ‡çº¹æ¨¡å—çŠ¶æ€ç 
  */
 uint8_t AS608_Fingerprint::readIndexTable()
 {
     uint8_t tmp;
     uint8_t status;
-    //Çå¿ÕÁĞ±í
+    //æ¸…ç©ºåˆ—è¡¨
     IndexTable.clear();
     for (uint8_t i = 0; i * 256 < capacity; i++)
     {
@@ -122,10 +122,10 @@ uint8_t AS608_Fingerprint::readIndexTable()
 }
 /**
  * @author  @Varocol
- * @brief   Ğ´¼ÇÊÂ±¾
- * @param   pagenum         Ò³Âë
- * @param   pagedataptr     Êı¾İÖ¸Õë
- * @return  Ö¸ÎÆÄ£¿é×´Ì¬Âë
+ * @brief   å†™è®°äº‹æœ¬
+ * @param   pagenum         é¡µç 
+ * @param   pagedataptr     æ•°æ®æŒ‡é’ˆ
+ * @return  æŒ‡çº¹æ¨¡å—çŠ¶æ€ç 
  */
 uint8_t AS608_Fingerprint::writeNotepad(uint8_t pagenum, uint8_t *pagedataptr)
 {
@@ -144,10 +144,10 @@ uint8_t AS608_Fingerprint::writeNotepad(uint8_t pagenum, uint8_t *pagedataptr)
 }
 /**
  * @author  @Varocol
- * @brief   ¶Á¼ÇÊÂ±¾
- * @param   pagenum         Ò³Âë
- * @param   pagedataptr     Êı¾İÖ¸Õë
- * @return  Ö¸ÎÆÄ£¿é×´Ì¬Âë
+ * @brief   è¯»è®°äº‹æœ¬
+ * @param   pagenum         é¡µç 
+ * @param   pagedataptr     æ•°æ®æŒ‡é’ˆ
+ * @return  æŒ‡çº¹æ¨¡å—çŠ¶æ€ç 
  */
 uint8_t AS608_Fingerprint::readNotepad(uint8_t pagenum, uint8_t *pagedataptr)
 {

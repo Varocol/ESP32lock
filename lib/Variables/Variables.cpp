@@ -1,7 +1,7 @@
 #include <Variables.h>
-//Ö¸ÎÆÄ£¿é±äÁ¿Çø
+//æŒ‡çº¹æ¨¡å—å˜é‡åŒº
 /*
-json¸ñÊ½
+jsonæ ¼å¼
 {
     "1":{
         "school_id":
@@ -13,7 +13,7 @@ json¸ñÊ½
     ...
 }
 */
-//Ô¤·ÖÅä2k¿Õ¼ä
+//é¢„åˆ†é…2kç©ºé—´
 DynamicJsonDocument finger_data(2048);
 FingerPrint_Param fingerprint_param = {
     .Tx = 16,
@@ -26,13 +26,16 @@ FingerPrint_Param fingerprint_param = {
 HardwareSerial mySerial(2);
 AS608_Fingerprint Finger(&mySerial);
 
-//´®¿Ú±äÁ¿Çø
+//ä¸²å£å˜é‡åŒº
 Serial_Param serial_param = {
     .Baudrate = 115200};
 
-//ÎÄ¼şÏµÍ³±äÁ¿
+//æ–‡ä»¶ç³»ç»Ÿå˜é‡
 File finger_file;
 File finger_backup_file;
 
-//¶æ»úÇı¶¯±äÁ¿
+//èˆµæœºé©±åŠ¨å˜é‡
 bool servo_flag = false;
+
+// websocket
+AsyncWebSocket websocket("/ws");
