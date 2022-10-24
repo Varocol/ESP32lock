@@ -310,7 +310,7 @@
     <script>
       var $ = mdui.$;
 
-      $("#url").val("http://" + localStorage.getItem("url"));
+      $("#url").val("http://" + window.location.host);
       $("#admin_key").val(localStorage.getItem("admin_key"));
       wsUri = "ws://" + getIP($("#url").val()) + "/ws";
       console.log(wsUri);
@@ -390,9 +390,8 @@
             : date.getMinutes()) + ":";
         s =
           date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-
-        $("#result").text(
-          $("#result").text() +
+        $("#result").val(
+          $("#result").val() +
             name +
             " " +
             (Y + M + D + h + m + s) +

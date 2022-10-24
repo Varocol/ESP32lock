@@ -189,7 +189,7 @@ void Show_finger_list()
       LCD_print("va" + String(m) + ".val=-1");
       continue;
     }
-    String temp = "ID:" + String(tp) + school_id_msg_1 + finger_data[String(tp)][finger_keys.school_id].as<String>() + " 次数:" + finger_data[String(tp)][finger_keys.operations_cnt].as<String>();
+    String temp = "ID:" + String(tp) + school_id_msg_1 + finger_data[String(tp)][finger_keys.school_id].as<String>() + cnt_msg + finger_data[String(tp)][finger_keys.operations_cnt].as<String>();
     LCD_print("t" + String(m) + ".txt=\"" + temp + "\"");
     LCD_print("va" + String(m) + ".val=" + String(tp));
   }

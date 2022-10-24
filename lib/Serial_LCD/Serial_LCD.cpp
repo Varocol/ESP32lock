@@ -5,6 +5,7 @@
 #include "network_config.h"
 #include "debug.h"
 #include "WiFi.h"
+#include <GBK_SOURCE.h>
 
 extern int page_position;
 int page_state;               // 屏幕当前页面ID标记
@@ -86,7 +87,7 @@ void deal_lcd_cmd(String raw_data)
   if (raw_data_arry.at(0) == "del")
   {
     // 预删除，弹出提示框
-    show_confirm("提示", "确认删除" + raw_data_arry.at(1) + "吗？", "2", "delR|" + raw_data_arry.at(1) + "|0");
+    show_confirm(tip_msg, delete_confirm_msg + raw_data_arry.at(1) + question_msg, "2", "delR|" + raw_data_arry.at(1) + "|0");
   }
   if (raw_data_arry.at(0) == "delR")
   {
@@ -99,7 +100,7 @@ void deal_lcd_cmd(String raw_data)
   if (raw_data_arry.at(0) == "chp")
   {
     // 预设置用户密码，弹出提示框
-    show_confirm("提示", "确认用户密码: " + raw_data_arry.at(1) + " 吗？", "6", "chpR|" + raw_data_arry.at(1) + "|0");
+    show_confirm(tip_msg, user_pass_confirm_msg + raw_data_arry.at(1) + question_msg, "6", "chpR|" + raw_data_arry.at(1) + "|0");
   }
   if (raw_data_arry.at(0) == "chpR")
   {
@@ -108,7 +109,7 @@ void deal_lcd_cmd(String raw_data)
   if (raw_data_arry.at(0) == "cha")
   {
     // 预设置管理密码，弹出提示框
-    show_confirm("提示", "确认管理密码: " + raw_data_arry.at(1) + " 吗？", "6", "chaR|" + raw_data_arry.at(1) + "|0");
+    show_confirm(tip_msg, admin_pass_confirm_msg + raw_data_arry.at(1) + question_msg, "6", "chaR|" + raw_data_arry.at(1) + "|0");
   }
   if (raw_data_arry.at(0) == "chaR")
   {

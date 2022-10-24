@@ -35,4 +35,9 @@ static String invalid_pass_msg = "无效密码";
 static String fingerprint_empty_msg = "指纹库为空";
 static String network_config_suceess_msg = "配网成功，请重启";
 static String pass_msg = "\\r密码: ";
+static String delete_confirm_msg = "确认删除";
+static String question_msg = " 吗？";
+static String user_pass_confirm_msg = "确认用户密码: ";
+static String admin_pass_confirm_msg = "确认管理密码: ";
+static String cnt_msg = " 次数:";
 #endif // !__GBK_SOURCE_H

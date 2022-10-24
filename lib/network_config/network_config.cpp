@@ -45,7 +45,7 @@ void network_config_Task(void *parameter)
     prefs.putString("passwd", WiFi.psk()); // 写入passwd
     prefs.end();                           // 关闭命名空间config
     PLATFORM_PRINTLN("[网络管理]:配网完成，等待30秒重启");
-    show_tips(network_config_suceess_msg, "WIFI: " + WiFi.SSID() + pass_msg + WiFi.psk() + "\\rIP: " + WiFi.localIP(), "0"); // 显示提示
+    show_tips(network_config_suceess_msg, "WIFI: " + WiFi.SSID() + pass_msg + WiFi.psk() + "\\rIP: " + WiFi.localIP().toString(), "0"); // 显示提示
     delay(30000);
     ESP.restart();
 }
@@ -70,7 +70,7 @@ void Network_while()
         {
             // 联网成功回调
             Serial.print("[网络管理]:联网成功，IP:");
-            PLATFORM_PRINTLN(WiFi.localIP());
+            PLATFORM_PRINTLN(WiFi.localIP().toString());
             configTime(60 * 60 * 8, 0, "ntp3.aliyun.com"); // 用的阿里云的服务器
             // 既然已经联网成功了，那为什么不挂载 MQTT 呢
             // mqtt_int();
