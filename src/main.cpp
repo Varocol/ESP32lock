@@ -4,8 +4,7 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  LCD_setup(); //初始化LCD
-
+  LCD_setup();  //初始化LCD
   show_first(); //开机画面
   delay(500);
   Store_Init();          //初始化存储

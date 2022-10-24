@@ -626,26 +626,6 @@ void FingerPrint_GetIndexTable()
     }
     PLATFORM_PRINTLN("[指纹模块]:指纹库索引表更新成功");
 }
-/**
- * @author  @Varocol
- * @brief   修改指纹信息
- * @param   None
- * @return  None
- */
-void FingerPrint_Alert()
-{
-    // PLATFORM_PRINTLN("<-------------指纹修改------------>");
-    // PLATFORM_PRINTLN("根据指纹修改学号");
-    // if (FingerPrint_Search() == FINGERPRINT_OK)
-    // {
-    //     PLATFORM_PRINTLN("请输入学号:");
-    //     String num = ReadOption();
-    //     finger_data[String(PLATFORM_FINGER.fingerID)][finger_keys.school_id] = num;
-    //     PLATFORM_PRINTLN("学号修改成功");
-    //     FingerPrint_WriteList();
-    // }
-    // PLATFORM_PRINTLN("<--------------------------------->");
-}
 
 /**
  * @author  @Varocol
@@ -790,7 +770,7 @@ vector<uint16_t> FingerPrint_Json2List(String list)
     }
     for (uint16_t i = 0; i < tmp.size(); i++)
     {
-        l.push_back(tmp.as<uint16_t>());
+        l.push_back(tmp[i].as<uint16_t>());
     }
     return l;
 }
@@ -807,10 +787,11 @@ void FingerPrint_Alert(String id, String school_id)
 {
     PLATFORM_PRINTLN("<-------------指纹修改------------>");
     vector<uint16_t> id_list = FingerPrint_Json2List(id);
+    PLATFORM_PRINTLN(id);
     for (uint16_t el : id_list)
     {
-        PLATFORM_PRINTF("id=%d,school_id=%s\n", id, school_id.c_str());
-        finger_data[el][finger_keys.school_id] = school_id;
+        PLATFORM_PRINTF("id=%d,school_id=%s\n", el, school_id.c_str());
+        finger_data[String(el)][finger_keys.school_id] = school_id;
     }
     //写入数据
     FingerPrint_WriteList();
@@ -838,7 +819,7 @@ void FingerPrint_Delete(String id)
         else
         {
             //删除数据
-            finger_data.remove(el);
+            finger_data.remove(String(el));
             PLATFORM_PRINTLN("[指纹模块]:删除指纹ID" + String(el) + "成功");
             // show_tips(delete_success_msg, school_id_msg_2 + id + finger_id_msg + " " + id, "2");
         }
