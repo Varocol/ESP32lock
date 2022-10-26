@@ -19,7 +19,6 @@ void setup()
   //当有手指在指纹传感器上，准备指纹识别
   pinMode(18, INPUT_PULLDOWN);
   attachInterrupt(18, FingerPrint_Unlock, RISING); // 设置外部中断
-  // int_bt_Serial();  // 启动蓝牙串口
   back_home_page(); //开机完成，返回主屏
 }
 

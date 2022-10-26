@@ -168,61 +168,61 @@ const char *FingerPrint_AnalyzeStatus(uint16_t status_code)
     switch (status_code)
     {
     case FINGERPRINT_OK:
-        return "指纹模块已就绪";
+        return FINGERPRINT_OK_msg;
     case FINGERPRINT_PACKETRECIEVEERR:
-        return "指纹数据包错误";
+        return FINGERPRINT_PACKETRECIEVEERR_msg;
     case FINGERPRINT_NOFINGER:
-        return "没有可识别的手指";
+        return FINGERPRINT_NOFINGER_msg;
     case FINGERPRINT_IMAGEFAIL:
-        return "指纹图像混乱";
+        return FINGERPRINT_IMAGEFAIL_msg;
     case FINGERPRINT_FEATUREFAIL:
-        return "指纹特征点缺失";
+        return FINGERPRINT_FEATUREFAIL_msg;
     case FINGERPRINT_NOMATCH:
-        return "指纹不匹配";
+        return FINGERPRINT_NOMATCH_msg;
     case FINGERPRINT_NOTFOUND:
-        return "找不到该指纹";
+        return FINGERPRINT_NOTFOUND_msg;
     case FINGERPRINT_ENROLLMISMATCH:
-        return "两次录入指纹不匹配";
+        return FINGERPRINT_ENROLLMISMATCH_msg;
     case FINGERPRINT_BADLOCATION:
-        return "指纹无法存储在该位置";
+        return FINGERPRINT_BADLOCATION_msg;
     case FINGERPRINT_DBRANGEFAIL:
-        return "指纹模板读取失败";
+        return FINGERPRINT_DBRANGEFAIL_msg;
     case FINGERPRINT_UPLOADFEATUREFAIL:
-        return "指纹模板上传失败";
+        return FINGERPRINT_UPLOADFEATUREFAIL_msg;
     case FINGERPRINT_PACKETRESPONSEFAIL:
-        return "指纹数据包响应失败";
+        return FINGERPRINT_PACKETRESPONSEFAIL_msg;
     case FINGERPRINT_UPLOADFAIL:
-        return "指纹图像上传失败";
+        return FINGERPRINT_UPLOADFAIL_msg;
     case FINGERPRINT_DELETEFAIL:
-        return "指纹模板删除失败";
+        return FINGERPRINT_DELETEFAIL_msg;
     case FINGERPRINT_DBCLEARFAIL:
-        return "清空指纹库失败";
+        return FINGERPRINT_DBCLEARFAIL_msg;
     case FINGERPRINT_PASSFAIL:
-        return "指纹模块密码错误";
+        return FINGERPRINT_PASSFAIL_msg;
     case FINGERPRINT_INVALIDIMAGE:
-        return "图像错误";
+        return FINGERPRINT_INVALIDIMAGE_msg;
     case FINGERPRINT_FLASHERR:
-        return "闪存写入错误";
+        return FINGERPRINT_FLASHERR_msg;
     case FINGERPRINT_INVALIDREG:
-        return "错误的寄存器地址";
+        return FINGERPRINT_INVALIDREG_msg;
     case FINGERPRINT_TIMEOUT:
-        return "通讯超时";
+        return FINGERPRINT_TIMEOUT_msg;
     case FINGERPRINT_BADPACKET:
-        return "数据包已损坏";
+        return FINGERPRINT_BADPACKET_msg;
     case FINGERPRINT_UNKOWNERR:
-        return "未知的错误";
+        return FINGERPRINT_UNKOWNERR_msg;
     case FINGERPRINT_REGCONTENTERR:
-        return "寄存器设定内容错误";
+        return FINGERPRINT_REGCONTENTERR_msg;
     case FINGERPRINT_PAGERANGEERR:
-        return "记事本页码指定错误";
+        return FINGERPRINT_PAGERANGEERR_msg;
     case FINGERPRINT_COMOPERATEERR:
-        return "端口操作失败";
+        return FINGERPRINT_COMOPERATEERR_msg;
     case FINGERPRINT_AUTOENROLLERR:
-        return "自动注册(enroll)失败";
+        return FINGERPRINT_AUTOENROLLERR_msg;
     case FINGERPRINT_DBFULL:
-        return "指纹库满";
+        return FINGERPRINT_DBFULL_msg;
     default:
-        return "未知的状态";
+        return FINGERPRINT_UNKOWN_msg;
     }
 }
 
